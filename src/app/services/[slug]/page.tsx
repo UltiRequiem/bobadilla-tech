@@ -54,6 +54,17 @@ export async function generateMetadata({
 	};
 }
 
+const features = [
+	"Custom design and development",
+	"Responsive and mobile-optimized",
+	"SEO and performance optimization",
+	"Integration with third-party services",
+	"Comprehensive testing and QA",
+	"Documentation and training",
+	"Post-launch support",
+	"Ongoing maintenance options",
+];
+
 export default async function ServicePage({ params }: ServicePageProps) {
 	const { slug } = await params;
 	const service =
@@ -94,17 +105,6 @@ export default async function ServicePage({ params }: ServicePageProps) {
 			title: "Scalable Solutions",
 			description: "Architecture designed to grow with your business",
 		},
-	];
-
-	const features = [
-		"Custom design and development",
-		"Responsive and mobile-optimized",
-		"SEO and performance optimization",
-		"Integration with third-party services",
-		"Comprehensive testing and QA",
-		"Documentation and training",
-		"Post-launch support",
-		"Ongoing maintenance options",
 	];
 
 	return (
