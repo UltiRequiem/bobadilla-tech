@@ -42,7 +42,7 @@ export default function Navbar() {
               Services
             </Link>
             <Link
-              href="#projects"
+              href="/#projects"
               className="text-gray-300 hover:text-white transition-colors duration-200"
             >
               Projects
@@ -53,7 +53,7 @@ export default function Navbar() {
               </button>
               <div className="absolute top-full left-0 mt-2 w-48 bg-slate-900/95 backdrop-blur-lg border border-white/10 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                 <Link
-                  href="#blog"
+                  href="/#blog"
                   className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-white/5 transition-colors duration-200"
                 >
                   Blog
@@ -65,13 +65,13 @@ export default function Navbar() {
                   Tools
                 </Link>
                 <Link
-                  href="#opensource"
+                  href="/#opensource"
                   className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-white/5 transition-colors duration-200"
                 >
                   Open Source
                 </Link>
                 <Link
-                  href="#apis"
+                  href="/#apis"
                   className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-white/5 transition-colors duration-200"
                 >
                   APIs
@@ -79,13 +79,13 @@ export default function Navbar() {
               </div>
             </div>
             <Link
-              href="#pricing"
+              href="/#pricing"
               className="text-gray-300 hover:text-white transition-colors duration-200"
             >
               Pricing
             </Link>
             <Link
-              href="#contact"
+              href="/#contact"
               className="text-gray-300 hover:text-white transition-colors duration-200"
             >
               Contact
@@ -121,7 +121,7 @@ export default function Navbar() {
                 Services
               </Link>
               <Link
-                href="#projects"
+                href="/#projects"
                 className="text-gray-300 hover:text-white transition-colors duration-200 px-2"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
@@ -131,7 +131,7 @@ export default function Navbar() {
                 <div className="text-gray-400 text-sm mb-2">Resources</div>
                 <div className="pl-4 space-y-2">
                   <Link
-                    href="#blog"
+                    href="/#blog"
                     className="block text-gray-300 hover:text-white transition-colors duration-200"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
@@ -145,14 +145,14 @@ export default function Navbar() {
                     Tools
                   </Link>
                   <Link
-                    href="#opensource"
+                    href="/#opensource"
                     className="block text-gray-300 hover:text-white transition-colors duration-200"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Open Source
                   </Link>
                   <Link
-                    href="#apis"
+                    href="/#apis"
                     className="block text-gray-300 hover:text-white transition-colors duration-200"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
@@ -161,14 +161,14 @@ export default function Navbar() {
                 </div>
               </div>
               <Link
-                href="#pricing"
+                href="/#pricing"
                 className="text-gray-300 hover:text-white transition-colors duration-200 px-2"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Pricing
               </Link>
               <Link
-                href="#contact"
+                href="/#contact"
                 className="text-gray-300 hover:text-white transition-colors duration-200 px-2"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
