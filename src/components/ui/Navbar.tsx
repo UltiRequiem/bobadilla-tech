@@ -59,7 +59,7 @@ export default function Navbar() {
                   Blog
                 </Link>
                 <Link
-                  href="#tools"
+                  href="/tools"
                   className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-white/5 transition-colors duration-200"
                 >
                   Tools
@@ -138,7 +138,7 @@ export default function Navbar() {
                     Blog
                   </Link>
                   <Link
-                    href="#tools"
+                    href="/tools"
                     className="block text-gray-300 hover:text-white transition-colors duration-200"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
