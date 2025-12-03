@@ -65,7 +65,9 @@ export default function Hero() {
             className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
           >
             <a
-              href="#book-call"
+              href="https://cal.com/ale-boba-work/15min"
+              target="_blank"
+              rel="noopener noreferrer"
               className="group px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full font-semibold text-lg hover:shadow-2xl hover:shadow-cyan-500/50 transition-all duration-300 transform hover:scale-105 flex items-center space-x-2"
             >
               <span>Book a Free Call</span>

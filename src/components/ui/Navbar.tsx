@@ -91,7 +91,9 @@ export default function Navbar() {
               Contact
             </Link>
             <a
-              href="#book-call"
+              href="https://cal.com/ale-boba-work/15min"
+              target="_blank"
+              rel="noopener noreferrer"
               className="px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full font-medium hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 transform hover:scale-105"
             >
               Book a Call
@@ -173,7 +175,9 @@ export default function Navbar() {
                 Contact
               </Link>
               <a
-                href="#book-call"
+                href="https://cal.com/ale-boba-work/15min"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="mx-2 px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full font-medium text-center"
                 onClick={() => setIsMobileMenuOpen(false)}
               >

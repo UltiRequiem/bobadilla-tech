@@ -149,7 +149,7 @@ export default async function IndustryPage({ params }: IndustryPageProps) {
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">
                 <a
-                  href="#book-call"
+                  href="https://cal.com/ale-boba-work/15min" target="_blank" rel="noopener noreferrer"
                   className="px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300"
                 >
                   Book a Free Call
