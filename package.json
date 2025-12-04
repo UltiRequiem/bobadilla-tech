@@ -2,6 +2,7 @@
 	"name": "next",
 	"version": "0.1.0",
 	"private": true,
+	"type": "module",
 	"scripts": {
 		"dev": "next dev --turbopack",
 		"build": "next build",
@@ -10,19 +11,33 @@
 		"deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
 		"upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
 		"preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-		"cf-typegen": "wrangler types --env-interface CloudflareEnv ./cloudflare-env.d.ts"
+		"cf-typegen": "wrangler types --env-interface CloudflareEnv ./cloudflare-env.d.ts",
+		"db:generate": "drizzle-kit generate",
+		"db:migrate": "drizzle-kit migrate",
+		"db:push": "drizzle-kit push",
+		"db:studio": "drizzle-kit studio"
 	},
 	"dependencies": {
+		"@libsql/client": "^0.15.15",
 		"@opennextjs/cloudflare": "^1.14.2",
+		"@react-email/components": "^1.0.1",
 		"@react-three/drei": "^10.7.7",
 		"@react-three/fiber": "^9.4.2",
+		"@t3-oss/env-nextjs": "^0.13.8",
 		"@types/three": "^0.181.0",
+		"dotenv": "^17.2.3",
+		"drizzle-kit": "^0.31.7",
+		"drizzle-orm": "^0.44.7",
 		"framer-motion": "^12.23.25",
+		"jiti": "^2.6.1",
 		"lucide-react": "^0.555.0",
 		"next": "15.5.7",
 		"react": "19.1.2",
 		"react-dom": "19.1.2",
-		"three": "^0.181.2"
+		"react-email": "^5.0.5",
+		"resend": "^6.5.2",
+		"three": "^0.181.2",
+		"zod": "^4.1.13"
 	},
 	"devDependencies": {
 		"@eslint/eslintrc": "^3",
