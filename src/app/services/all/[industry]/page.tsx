@@ -1,4 +1,4 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import Navbar from '@/components/ui/Navbar';
@@ -6,6 +6,7 @@ import ShaderBackground from '@/components/shaders/ShaderBackground';
 import { industryServices } from '@/data/services';
 import { ArrowRight } from 'lucide-react';
 import { CAL_LINKS } from '~/lib/constants';
+import { generateMetadata as generateSEOMetadata, KEYWORD_SETS, BASE_URL } from '~/lib/seo';
 
 interface IndustryPageProps {
   params: Promise<{
@@ -26,13 +27,27 @@ export async function generateMetadata({ params }: IndustryPageProps): Promise<M
   if (!industry) {
     return {
       title: 'Industry Not Found',
+      robots: { index: false, follow: false },
     };
   }
 
-  return {
-    title: `${industry.industry} Services - Bobadilla Tech`,
-    description: industry.description,
-  };
+  return generateSEOMetadata({
+    title: `${industry.industry} Software Development Services`,
+    description: `${industry.description} Expert ${industry.industry.toLowerCase()} software solutions from top LATAM developers. Custom development, fast delivery, enterprise quality.`,
+    keywords: [
+      ...KEYWORD_SETS.core,
+      ...KEYWORD_SETS.services,
+      ...KEYWORD_SETS.industries,
+      `${industry.industry.toLowerCase()} software`,
+      `${industry.industry.toLowerCase()} development`,
+      `${industry.industry.toLowerCase()} solutions`,
+      `${industry.industry.toLowerCase()} technology`,
+      'industry-specific development',
+      'specialized solutions',
+    ],
+    canonical: `${BASE_URL}/services/all/${industrySlug}`,
+    ogImage: `${BASE_URL}/og-industry-${industrySlug}.png`,
+  });
 }
 
 export default async function IndustryPage({ params }: IndustryPageProps) {

@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -14,6 +14,7 @@ import {
 	TrendingUp,
 } from "lucide-react";
 import { CAL_LINKS } from "~/lib/constants";
+import { generateMetadata as generateSEOMetadata, KEYWORD_SETS, BASE_URL } from "~/lib/seo";
 
 interface ServicePageProps {
 	params: Promise<{
@@ -46,13 +47,26 @@ export async function generateMetadata({
 	if (!service) {
 		return {
 			title: "Service Not Found",
+			robots: { index: false, follow: false },
 		};
 	}
 
-	return {
-		title: `${service.title} - Bobadilla Tech`,
-		description: service.description,
-	};
+	return generateSEOMetadata({
+		title: service.title,
+		description: `${service.description} Professional ${service.title.toLowerCase()} services from expert LATAM developers. Fast delivery, enterprise quality, competitive pricing.`,
+		keywords: [
+			...KEYWORD_SETS.core,
+			...KEYWORD_SETS.services,
+			...KEYWORD_SETS.technologies,
+			service.title.toLowerCase(),
+			`${service.title.toLowerCase()} development`,
+			`${service.title.toLowerCase()} services`,
+			'professional development',
+			'expert developers',
+		],
+		canonical: `${BASE_URL}/services/${slug}`,
+		ogImage: `${BASE_URL}/og-service-${slug}.png`,
+	});
 }
 
 const features = [

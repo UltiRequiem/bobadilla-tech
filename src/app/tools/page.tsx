@@ -1,12 +1,25 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import Navbar from '@/components/ui/Navbar';
 import { Calendar, ArrowRight } from 'lucide-react';
+import { generateMetadata as generateSEOMetadata, BASE_URL } from '~/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Free Tools - Bobadilla Tech',
-  description: 'Free online tools for developers, researchers, and content creators. Built with care by Bobadilla Tech.',
-};
+export const metadata: Metadata = generateSEOMetadata({
+  title: 'Free Online Developer Tools',
+  description: 'Free online tools for developers, researchers, and content creators. Privacy-focused utilities including Reddit post date extractor, code formatters, and more. No sign-up required.',
+  keywords: [
+    'free developer tools',
+    'online tools',
+    'reddit post date',
+    'developer utilities',
+    'free software tools',
+    'web tools',
+    'no sign-up tools',
+    'privacy-focused tools',
+  ],
+  canonical: `${BASE_URL}/tools`,
+  ogImage: `${BASE_URL}/og-tools.png`,
+});
 
 const tools = [
   {

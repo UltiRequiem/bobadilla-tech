@@ -1,15 +1,26 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import Navbar from '@/components/ui/Navbar';
 import ShaderBackground from '@/components/shaders/ShaderBackground';
 import { allServices, industryServices } from '@/data/services';
 import { Code, Globe, Smartphone, Database, Palette, Boxes, Rocket, Layout, Heart, GraduationCap, DollarSign, Truck, Brain } from 'lucide-react';
 import { CAL_LINKS } from '~/lib/constants';
+import { generateMetadata as generateSEOMetadata, KEYWORD_SETS, BASE_URL } from '~/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Our Services - Bobadilla Tech',
-  description: 'Full-stack development, AI integration, and enterprise solutions. From MVP development to industry-specific solutions.',
-};
+export const metadata: Metadata = generateSEOMetadata({
+  title: 'Our Services',
+  description: 'Expert software development services including full-stack development, MVP creation, AI integration, and enterprise solutions. Specialized industry expertise in healthcare, fintech, education, and more. Fast delivery with senior engineering talent.',
+  keywords: [
+    ...KEYWORD_SETS.core,
+    ...KEYWORD_SETS.services,
+    ...KEYWORD_SETS.technologies,
+    'custom software development',
+    'enterprise software',
+    'industry solutions',
+  ],
+  canonical: `${BASE_URL}/services`,
+  ogImage: `${BASE_URL}/og-services.png`,
+});
 
 const serviceIconMap: Record<string, React.ReactNode> = {
   'web-dev': <Globe className="w-8 h-8" />,
