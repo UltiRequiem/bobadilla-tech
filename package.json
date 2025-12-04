@@ -30,7 +30,6 @@
 		"drizzle-orm": "^0.44.7",
 		"framer-motion": "^12.23.25",
 		"jiti": "^2.6.1",
-		"libsql-stateless-easy": "^1.8.0",
 		"lucide-react": "^0.555.0",
 		"mimetext": "^3.0.27",
 		"next": "15.5.7",

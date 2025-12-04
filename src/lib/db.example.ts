@@ -1,50 +1,44 @@
 /**
- * Example: Database client setup using T3 Env
+ * Example: Database client setup with Cloudflare D1
  *
- * This is an example file showing how to use the validated environment variables
- * to set up a Turso database client.
+ * This is an example file showing how to use D1 database with Drizzle ORM.
  */
 
 import { env } from "~/env";
 
-// Example using @libsql/client (you would need to install this)
-// import { createClient } from "@libsql/client";
+// Example: Getting the database instance in an API route
+export function exampleDatabaseUsage() {
+	console.log("Database Configuration:");
+	console.log("- D1 Database: bobadilla-work");
+	console.log("- Binding: DB");
+	console.log("- Environment:", env.NODE_ENV);
 
-export function createDatabaseClient() {
-  // Access validated environment variables
-  const dbUrl = env.TURSO_DATABASE_URL;
-  const authToken = env.TURSO_AUTH_TOKEN;
+	// In actual code, you would get the D1 binding from the request:
+	// import { getDb } from "~/db/client";
+	// const db = getDb(request.cloudflare?.env?.DB);
 
-  console.log("Database Configuration:");
-  console.log("- URL:", dbUrl);
-  console.log("- Auth Token:", authToken ? "✓ Provided" : "✗ Not provided (local mode)");
-  console.log("- Environment:", env.NODE_ENV);
-
-  // Example client creation (pseudo-code)
-  // const client = createClient({
-  //   url: dbUrl,
-  //   authToken: authToken,
-  // });
-
-  // return client;
+	// Example query with Drizzle ORM (pseudo-code)
+	// const results = await db.select().from(contactMessages);
 }
 
 // Example API route usage
 // src/app/api/example/route.ts
 /*
-import { env } from "~/env";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { getDb } from "~/db/client";
+import { contactMessages } from "~/db/schema";
 
-export async function GET() {
-  // Type-safe access to environment variables
-  const dbUrl = env.TURSO_DATABASE_URL;
+export async function GET(request: NextRequest) {
+  // Get D1 database from Cloudflare Workers binding
+  const env = request.cloudflare?.env || {};
+  const db = getDb(env.DB);
 
-  // Use in your database queries
-  // const result = await db.query(...);
+  // Query database with Drizzle ORM
+  const messages = await db.select().from(contactMessages).limit(10);
 
   return NextResponse.json({
-    message: "Connected to database",
-    environment: env.NODE_ENV
+    success: true,
+    data: messages
   });
 }
 */
