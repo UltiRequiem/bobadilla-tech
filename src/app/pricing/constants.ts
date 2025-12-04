@@ -176,3 +176,22 @@ export const TIMELINE_STEP_ID = 5;
 export const RUSH_MULTIPLIER = 1.3;
 export const FLEXIBLE_MULTIPLIER = 0.85;
 export const STANDARD_MULTIPLIER = 1;
+
+// Animation configuration constants
+export const ANIMATION_CONFIG = {
+  duration: {
+    fast: 0.3,
+    normal: 0.5,
+  },
+  staggerDelay: 0.1,
+  initialY: {
+    small: 10,
+    medium: 20,
+  },
+  initialOpacity: 0,
+  finalOpacity: 1,
+  initialScale: 0.95,
+  finalScale: 1,
+  initialWidth: 0,
+  hoverScale: 1.05,
+} as const;

@@ -18,7 +18,7 @@ import {
 import Navbar from '@/components/ui/Navbar';
 import ShaderBackground from '@/components/shaders/ShaderBackground';
 import { CAL_LINKS } from '~/lib/constants';
-import { PRICING_STEPS } from './constants';
+import { PRICING_STEPS, ANIMATION_CONFIG } from './constants';
 import type { Selections } from './types';
 import { calculateStepTotal, calculateTotal, getSelectedOptionsByStep, formatSelectionsSummary } from './utils';
 
@@ -173,8 +173,8 @@ export default function PricingCalculator() {
 
         <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: ANIMATION_CONFIG.initialOpacity, y: ANIMATION_CONFIG.initialY.medium }}
+            animate={{ opacity: ANIMATION_CONFIG.finalOpacity, y: 0 }}
             className="space-y-8"
           >
             {/* Header */}
@@ -348,8 +348,8 @@ export default function PricingCalculator() {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: ANIMATION_CONFIG.initialOpacity, y: ANIMATION_CONFIG.initialY.medium }}
+          animate={{ opacity: ANIMATION_CONFIG.finalOpacity, y: 0 }}
           className="text-center mb-12"
         >
           <Calculator className="w-16 h-16 text-cyan-400 mx-auto mb-4" />
@@ -372,9 +372,9 @@ export default function PricingCalculator() {
               </div>
               <div className="h-2 bg-white/5 rounded-full overflow-hidden">
                 <motion.div
-                  initial={{ width: 0 }}
+                  initial={{ width: ANIMATION_CONFIG.initialWidth }}
                   animate={{ width: `${((currentStep + 1) / PRICING_STEPS.length) * 100}%` }}
-                  transition={{ duration: 0.3 }}
+                  transition={{ duration: ANIMATION_CONFIG.duration.fast }}
                   className="h-full bg-gradient-to-r from-cyan-500 to-blue-600"
                 />
               </div>
@@ -383,8 +383,8 @@ export default function PricingCalculator() {
             {/* Current Step Cost */}
             {currentTotal > 0 && (
               <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: ANIMATION_CONFIG.initialOpacity, scale: ANIMATION_CONFIG.initialScale }}
+                animate={{ opacity: ANIMATION_CONFIG.finalOpacity, scale: ANIMATION_CONFIG.finalScale }}
                 className="mb-6 p-4 bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-xl"
               >
                 <div className="flex items-center justify-between">
@@ -403,10 +403,10 @@ export default function PricingCalculator() {
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentStep}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.3 }}
+                initial={{ opacity: ANIMATION_CONFIG.initialOpacity, x: ANIMATION_CONFIG.initialY.medium }}
+                animate={{ opacity: ANIMATION_CONFIG.finalOpacity, x: 0 }}
+                exit={{ opacity: ANIMATION_CONFIG.initialOpacity, x: -ANIMATION_CONFIG.initialY.medium }}
+                transition={{ duration: ANIMATION_CONFIG.duration.fast }}
                 className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 backdrop-blur-sm border border-white/10 rounded-2xl p-8 mb-8"
               >
                 <h2 className="text-3xl font-bold text-white mb-2">{currentStepData.title}</h2>
@@ -445,9 +445,9 @@ export default function PricingCalculator() {
                       {/* Tooltip on Hover */}
                       {hoveredOption === option.id && (
                         <motion.div
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: 10 }}
+                          initial={{ opacity: ANIMATION_CONFIG.initialOpacity, y: ANIMATION_CONFIG.initialY.small }}
+                          animate={{ opacity: ANIMATION_CONFIG.finalOpacity, y: 0 }}
+                          exit={{ opacity: ANIMATION_CONFIG.initialOpacity, y: ANIMATION_CONFIG.initialY.small }}
                           className="absolute z-10 left-0 right-0 -bottom-2 translate-y-full p-4 bg-slate-800 border border-cyan-500/30 rounded-xl shadow-xl"
                         >
                           <p className="text-sm text-gray-300">{option.description}</p>
