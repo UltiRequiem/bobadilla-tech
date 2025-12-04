@@ -91,14 +91,16 @@ export function generateMetadata(config: SEOConfig): Metadata {
 			siteName: SITE_NAME,
 			title: fullTitle,
 			description,
-			images: [
-				{
-					url: ogImage,
-					width: 1200,
-					height: 630,
-					alt: title,
-				},
-			],
+			images: ogImage
+				? [
+						{
+							url: ogImage,
+							width: 1200,
+							height: 630,
+							alt: title,
+						},
+				  ]
+				: undefined,
 		},
 		twitter: {
 			card: twitterCard,

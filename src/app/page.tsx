@@ -14,7 +14,6 @@ export default function Home() {
 		<>
 			<script
 				type="application/ld+json"
-				// eslint-disable-next-line react/no-danger
 				dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
 			/>
 			<div className="relative min-h-screen bg-slate-950">
