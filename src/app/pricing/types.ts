@@ -21,7 +21,7 @@ export interface SelectedOption {
 
 export interface StepBreakdown {
   stepTitle: string;
-  options: (SelectedOption | null)[];
+  options: SelectedOption[];
   total: number;
 }
 
