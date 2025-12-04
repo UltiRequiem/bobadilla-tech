@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import z, { type ZodError } from "zod";
+import type { ZodError } from "zod";
 
 interface SuccessResponse<T = unknown> {
 	success: true;
@@ -7,10 +7,15 @@ interface SuccessResponse<T = unknown> {
 	data?: T;
 }
 
+interface FieldError {
+	field: string;
+	message: string;
+}
+
 interface ErrorResponse {
 	success: false;
 	message: string;
-	errors?: ReturnType<typeof z.treeifyError>;
+	errors?: FieldError[];
 }
 
 /**
@@ -61,11 +66,17 @@ export function validationErrorResponse(
 	error: ZodError,
 	message = "Invalid request data",
 ): NextResponse<ErrorResponse> {
+	// Format errors to show field-specific messages with exact details
+	const fieldErrors: FieldError[] = error.issues.map((issue) => ({
+		field: issue.path.join(".") || "root",
+		message: issue.message,
+	}));
+
 	return NextResponse.json(
 		{
 			success: false,
 			message,
-			errors: z.treeifyError(error),
+			errors: fieldErrors,
 		},
 		{ status: 400 },
 	);

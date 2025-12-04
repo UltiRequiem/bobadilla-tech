@@ -1,5 +1,6 @@
 import type { NextRequest } from "next/server";
 import { z } from "zod";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import {
 	errorResponse,
 	successResponse,
@@ -13,9 +14,7 @@ import { contactSchema } from "./validation";
 
 export async function POST(request: NextRequest) {
 	try {
-		// Get D1 database from Cloudflare Workers binding
-		// @ts-expect-error - Cloudflare env is available in production via OpenNext
-		const env = request.cloudflare?.env || {};
+		const { env } = getCloudflareContext();
 		const db = getDb(env.DB);
 
 		const body = await request.json();
