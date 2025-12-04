@@ -11,6 +11,7 @@ const showcases = [
     slug: 'healthcare',
     description: 'Extensive experience building HIPAA-compliant telemedicine platforms, patient management systems, and health data analytics solutions',
     image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&auto=format&fit=crop',
+    alt: 'Medical professional in white coat using smartphone for telemedicine consultation',
     tags: ['Telemedicine', 'Patient Portals', 'Health Analytics', 'Compliance']
   },
   {
@@ -19,6 +20,7 @@ const showcases = [
     slug: 'finance',
     description: 'Proven expertise in secure payment processing, trading platforms, and AI-powered financial analytics systems',
     image: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=800&auto=format&fit=crop',
+    alt: 'Small plant growing from coins representing financial growth and investment',
     tags: ['Payment Systems', 'Trading Platforms', 'Risk Analysis', 'Banking APIs']
   },
   {
@@ -27,6 +29,7 @@ const showcases = [
     slug: 'education',
     description: 'Deep experience creating interactive learning platforms, student management systems, and adaptive learning solutions',
     image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&auto=format&fit=crop',
+    alt: 'Red apple on stacked books with ABC learning blocks representing education',
     tags: ['E-Learning', 'LMS', 'Student Portals', 'Virtual Classrooms']
   },
   {
@@ -35,6 +38,7 @@ const showcases = [
     slug: 'transportation-logistics',
     description: 'Specialized knowledge in real-time tracking systems, warehouse management, and supply chain optimization platforms',
     image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&auto=format&fit=crop',
+    alt: 'Modern warehouse interior with organized shelving and yellow packages ready for distribution',
     tags: ['Fleet Management', 'Inventory', 'Route Optimization', 'Tracking']
   }
 ];
@@ -110,7 +114,7 @@ export default function Projects() {
                   <div className="w-full h-48 rounded-xl mb-4 overflow-hidden relative">
                     <Image
                       src={project.image}
-                      alt={project.title}
+                      alt={project.alt}
                       fill
                       className="object-cover group-hover:scale-110 transition-transform duration-500"
                     />
