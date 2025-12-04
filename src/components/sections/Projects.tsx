@@ -1,40 +1,41 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ExternalLink, Github } from 'lucide-react';
+import Link from 'next/link';
+import Image from 'next/image';
 
-const projects = [
+const showcases = [
   {
     id: 1,
-    title: 'HealthTech Platform',
-    category: 'Healthcare',
-    description: 'HIPAA-compliant telemedicine platform with real-time video consultations',
-    image: '/placeholder-project-1.jpg',
-    tags: ['React', 'Node.js', 'WebRTC', 'AWS']
+    title: 'Healthcare',
+    slug: 'healthcare',
+    description: 'Extensive experience building HIPAA-compliant telemedicine platforms, patient management systems, and health data analytics solutions',
+    image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&auto=format&fit=crop',
+    tags: ['Telemedicine', 'Patient Portals', 'Health Analytics', 'Compliance']
   },
   {
     id: 2,
-    title: 'FinTech Dashboard',
-    category: 'Finance',
-    description: 'Real-time financial analytics dashboard with AI-powered insights',
-    image: '/placeholder-project-2.jpg',
-    tags: ['Next.js', 'Python', 'TensorFlow', 'PostgreSQL']
+    title: 'Finance',
+    slug: 'finance',
+    description: 'Proven expertise in secure payment processing, trading platforms, and AI-powered financial analytics systems',
+    image: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=800&auto=format&fit=crop',
+    tags: ['Payment Systems', 'Trading Platforms', 'Risk Analysis', 'Banking APIs']
   },
   {
     id: 3,
-    title: 'EdTech Learning Platform',
-    category: 'Education',
-    description: 'Interactive e-learning platform with adaptive learning algorithms',
-    image: '/placeholder-project-3.jpg',
-    tags: ['Vue.js', 'Django', 'Redis', 'MongoDB']
+    title: 'Education',
+    slug: 'education',
+    description: 'Deep experience creating interactive learning platforms, student management systems, and adaptive learning solutions',
+    image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&auto=format&fit=crop',
+    tags: ['E-Learning', 'LMS', 'Student Portals', 'Virtual Classrooms']
   },
   {
     id: 4,
-    title: 'Logistics Management System',
-    category: 'Transportation',
-    description: 'End-to-end supply chain management with real-time tracking',
-    image: '/placeholder-project-4.jpg',
-    tags: ['React Native', 'Express', 'Socket.io', 'MySQL']
+    title: 'Transportation & Logistics',
+    slug: 'transportation-logistics',
+    description: 'Specialized knowledge in real-time tracking systems, warehouse management, and supply chain optimization platforms',
+    image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&auto=format&fit=crop',
+    tags: ['Fleet Management', 'Inventory', 'Route Optimization', 'Tracking']
   }
 ];
 
@@ -72,14 +73,14 @@ export default function Projects() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
-            Featured <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Projects</span>
+            Industries We Have <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Experience With</span>
           </h2>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            Transforming ideas into revenue-generating solutions
+            Proven expertise delivering specialized solutions across diverse sectors
           </p>
         </motion.div>
 
-        {/* Projects Grid */}
+        {/* Industry Showcases Grid */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -87,63 +88,60 @@ export default function Projects() {
           viewport={{ once: true }}
           className="grid grid-cols-1 md:grid-cols-2 gap-8"
         >
-          {projects.map((project) => (
-            <motion.div
+          {showcases.map((project) => (
+            <Link
               key={project.id}
-              variants={itemVariants}
-              whileHover={{ scale: 1.02 }}
-              className="group relative"
+              href={`/services/all/${project.slug}`}
             >
-              <div className="relative p-6 bg-gradient-to-br from-slate-900/50 to-slate-800/30 backdrop-blur-sm border border-white/10 rounded-2xl hover:border-cyan-500/50 transition-all duration-300 overflow-hidden">
-                {/* Category Badge */}
-                <div className="absolute top-6 right-6 z-10">
-                  <span className="px-3 py-1 bg-cyan-500/20 text-cyan-400 text-sm rounded-full border border-cyan-500/30">
-                    {project.category}
-                  </span>
-                </div>
-
-                {/* Project Image Placeholder */}
-                <div className="w-full h-48 bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl mb-4 flex items-center justify-center">
-                  <div className="text-6xl opacity-20">🚀</div>
-                </div>
-
-                {/* Project Info */}
-                <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors duration-300">
-                  {project.title}
-                </h3>
-
-                <p className="text-gray-400 mb-4">
-                  {project.description}
-                </p>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tags.map((tag, index) => (
-                    <span
-                      key={index}
-                      className="px-3 py-1 bg-white/5 text-gray-300 text-sm rounded-full"
-                    >
-                      {tag}
+              <motion.div
+                variants={itemVariants}
+                whileHover={{ scale: 1.02 }}
+                className="group relative cursor-pointer"
+              >
+                <div className="relative p-6 bg-gradient-to-br from-slate-900/50 to-slate-800/30 backdrop-blur-sm border border-white/10 rounded-2xl hover:border-cyan-500/50 transition-all duration-300 overflow-hidden">
+                  {/* Category Badge */}
+                  <div className="absolute top-6 right-6 z-10">
+                    <span className="px-3 py-1 bg-cyan-500/20 text-cyan-400 text-sm rounded-full border border-cyan-500/30">
+                      {project.title}
                     </span>
-                  ))}
-                </div>
+                  </div>
 
-                {/* Links */}
-                <div className="flex space-x-4">
-                  <button className="flex items-center space-x-2 text-cyan-400 hover:text-cyan-300 transition-colors duration-300">
-                    <ExternalLink className="w-5 h-5" />
-                    <span>View Project</span>
-                  </button>
-                  <button className="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors duration-300">
-                    <Github className="w-5 h-5" />
-                    <span>Source</span>
-                  </button>
-                </div>
+                  {/* Project Image */}
+                  <div className="w-full h-48 rounded-xl mb-4 overflow-hidden relative">
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
 
-                {/* Hover Effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/0 to-blue-500/0 group-hover:from-cyan-500/5 group-hover:to-blue-500/5 rounded-2xl transition-all duration-300 pointer-events-none" />
-              </div>
-            </motion.div>
+                  {/* Project Info */}
+                  <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors duration-300">
+                    {project.title}
+                  </h3>
+
+                  <p className="text-gray-400 mb-4">
+                    {project.description}
+                  </p>
+
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-2">
+                    {project.tags.map((tag, index) => (
+                      <span
+                        key={index}
+                        className="px-3 py-1 bg-white/5 text-gray-300 text-sm rounded-full"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Hover Effect */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/0 to-blue-500/0 group-hover:from-cyan-500/5 group-hover:to-blue-500/5 rounded-2xl transition-all duration-300 pointer-events-none" />
+                </div>
+              </motion.div>
+            </Link>
           ))}
         </motion.div>
 

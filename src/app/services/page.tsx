@@ -4,6 +4,7 @@ import Navbar from '@/components/ui/Navbar';
 import ShaderBackground from '@/components/shaders/ShaderBackground';
 import { allServices, industryServices } from '@/data/services';
 import { Code, Globe, Smartphone, Database, Palette, Boxes, Rocket, Layout, Heart, GraduationCap, DollarSign, Truck, Brain } from 'lucide-react';
+import { CAL_LINKS } from '~/lib/constants';
 
 export const metadata: Metadata = {
   title: 'Our Services - Boba Tech',
@@ -136,7 +137,7 @@ export default function ServicesPage() {
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">
                 <a
-                  href="https://cal.com/ale-boba-work/15min" target="_blank" rel="noopener noreferrer"
+                  href={CAL_LINKS.ale} target="_blank" rel="noopener noreferrer"
                   className="px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300"
                 >
                   Book a Call

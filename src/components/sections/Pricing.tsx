@@ -1,7 +1,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Check, Zap, Star, Crown } from 'lucide-react';
+import { Check, Zap, Star, Crown, Calendar, Calculator } from 'lucide-react';
+import Link from 'next/link';
+import { CAL_LINKS } from '~/lib/constants';
 
 const pricingPlans = [
   {
@@ -98,9 +100,16 @@ export default function Pricing() {
           <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
             Simple, <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Transparent Pricing</span>
           </h2>
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-6">
             Static website packages designed for speed and quality
           </p>
+          <Link
+            href="/pricing"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-600 text-white rounded-full font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105"
+          >
+            <Calculator className="w-5 h-5" />
+            Try Our Pricing Calculator
+          </Link>
         </motion.div>
 
         {/* Pricing Cards */}
@@ -116,7 +125,7 @@ export default function Pricing() {
               key={plan.id}
               variants={itemVariants}
               whileHover={{ scale: 1.02 }}
-              className={`relative p-8 rounded-2xl backdrop-blur-sm transition-all duration-300 ${
+              className={`relative p-8 rounded-2xl backdrop-blur-sm transition-all duration-300 flex flex-col ${
                 plan.popular
                   ? 'bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border-2 border-cyan-500/50'
                   : 'bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-white/10 hover:border-white/20'
@@ -149,7 +158,7 @@ export default function Pricing() {
               </div>
 
               {/* Features */}
-              <ul className="space-y-4 mb-8">
+              <ul className="space-y-4 mb-8 flex-grow">
                 {plan.features.map((feature, index) => (
                   <li key={index} className="flex items-start space-x-3">
                     <Check className={`w-5 h-5 mt-0.5 flex-shrink-0 ${
@@ -163,7 +172,7 @@ export default function Pricing() {
               {/* CTA Button */}
               <a
                 href="#contact"
-                className={`block w-full py-3 rounded-full font-semibold text-center transition-all duration-300 ${
+                className={`block w-full py-3 rounded-full font-semibold text-center transition-all duration-300 mt-auto ${
                   plan.popular
                     ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:shadow-lg hover:shadow-cyan-500/50 transform hover:scale-105'
                     : 'bg-white/5 text-white hover:bg-white/10 border border-white/10'
@@ -187,9 +196,18 @@ export default function Pricing() {
             <p className="text-lg text-gray-300 mb-2">
               <span className="font-semibold text-white">Need a custom MVP or full-stack application?</span>
             </p>
-            <p className="text-gray-400">
+            <p className="text-gray-400 mb-4">
               We offer hourly consultancy and fractional CTO services. Book a call to discuss your project.
             </p>
+            <a
+              href={CAL_LINKS.eliaz}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-600 text-white rounded-full font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105"
+            >
+              <Calendar className="w-5 h-5" />
+              Book a Call with an Experienced Fractional CTO
+            </a>
           </div>
         </motion.div>
       </div>

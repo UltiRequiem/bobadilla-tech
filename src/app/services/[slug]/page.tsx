@@ -13,6 +13,7 @@ import {
 	Clock,
 	TrendingUp,
 } from "lucide-react";
+import { CAL_LINKS } from "~/lib/constants";
 
 interface ServicePageProps {
 	params: Promise<{
@@ -216,7 +217,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
 								</p>
 								<div className="space-y-3">
 									<a
-										href="https://cal.com/ale-boba-work/15min"
+										href={CAL_LINKS.ale}
 										target="_blank"
 										rel="noopener noreferrer"
 										className="block w-full py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full font-semibold text-center hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300"

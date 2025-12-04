@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AlertCircle, Calendar, CheckCircle, Github, Linkedin, Loader2, Mail } from "lucide-react";
 import { motion } from "framer-motion";
 import { z } from "zod";
+import { CAL_LINKS } from "~/lib/constants";
 
 // Validation schema (matches backend)
 const contactSchema = z.object({
@@ -320,7 +321,7 @@ export default function Contact() {
 							</p>
 							<div className="space-y-3">
 								<a
-									href="https://cal.com/ale-boba-work/15min"
+									href={CAL_LINKS.ale}
 									target="_blank"
 									rel="noopener noreferrer"
 									className="inline-flex items-center justify-center w-full px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 transform hover:scale-105"
@@ -328,7 +329,7 @@ export default function Contact() {
 									Schedule with Ale
 								</a>
 								<a
-									href="https://cal.com/ultirequiem/15min"
+									href={CAL_LINKS.eliaz}
 									target="_blank"
 									rel="noopener noreferrer"
 									className="inline-flex items-center justify-center w-full px-4 py-2 bg-white/5 border border-white/10 text-gray-300 text-sm rounded-full hover:bg-white/10 transition-all duration-300"

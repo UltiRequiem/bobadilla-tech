@@ -8,6 +8,13 @@
       "when": 1764812567403,
       "tag": "0000_daffy_jimmy_woo",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1764817079632,
+      "tag": "0001_square_vargas",
+      "breakpoints": true
     }
   ]
 }

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
+import { CAL_LINKS } from '~/lib/constants';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -91,7 +92,7 @@ export default function Navbar() {
               Contact
             </Link>
             <a
-              href="https://cal.com/ale-boba-work/15min"
+              href={CAL_LINKS.ale}
               target="_blank"
               rel="noopener noreferrer"
               className="px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full font-medium hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 transform hover:scale-105"
@@ -175,7 +176,7 @@ export default function Navbar() {
                 Contact
               </Link>
               <a
-                href="https://cal.com/ale-boba-work/15min"
+                href={CAL_LINKS.ale}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mx-2 px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full font-medium text-center"
