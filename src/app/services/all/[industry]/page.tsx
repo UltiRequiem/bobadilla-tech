@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: IndustryPageProps): Promise<M
   }
 
   return {
-    title: `${industry.industry} Services - Boba Tech`,
+    title: `${industry.industry} Services - Bobadilla Tech`,
     description: industry.description,
   };
 }
@@ -104,7 +104,7 @@ export default async function IndustryPage({ params }: IndustryPageProps) {
           <section className="mb-16">
             <div className="p-12 bg-gradient-to-br from-slate-900/50 to-slate-800/30 backdrop-blur-sm border border-white/10 rounded-2xl">
               <h2 className="text-3xl font-bold text-white mb-6">
-                Why Choose Boba Tech for {industry.industry}?
+                Why Choose Bobadilla Tech for {industry.industry}?
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-gray-300">
                 <div>

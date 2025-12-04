@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	title: "Boba Tech - Launch Your MVP in Days | Top LATAM Engineering Agency",
+	title: "Bobadilla Tech - Launch Your MVP in Days | Top LATAM Engineering Agency",
 	description: "Senior engineering talent building enterprise backend systems and cutting-edge AI solutions. Launch your startup in days or weeks, not months. Web development, MVP, and full-stack applications.",
 };
 

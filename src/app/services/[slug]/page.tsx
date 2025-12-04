@@ -50,7 +50,7 @@ export async function generateMetadata({
 	}
 
 	return {
-		title: `${service.title} - Boba Tech`,
+		title: `${service.title} - Bobadilla Tech`,
 		description: service.description,
 	};
 }

@@ -4,8 +4,8 @@ import Navbar from '@/components/ui/Navbar';
 import { Calendar, ArrowRight } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Free Tools - Boba Tech',
-  description: 'Free online tools for developers, researchers, and content creators. Built with care by Boba Tech.',
+  title: 'Free Tools - Bobadilla Tech',
+  description: 'Free online tools for developers, researchers, and content creators. Built with care by Bobadilla Tech.',
 };
 
 const tools = [

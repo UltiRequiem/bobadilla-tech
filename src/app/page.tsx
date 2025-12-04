@@ -21,7 +21,7 @@ export default function Home() {
 			<footer className="relative py-12 border-t border-white/10">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 					<div className="text-center text-gray-400">
-						<p className="mb-2">&copy; 2025 Boba Tech. All rights reserved.</p>
+						<p className="mb-2">&copy; 2025 Bobadilla Tech. All rights reserved.</p>
 						<p className="text-sm">Built with Deep Engineering Expertise</p>
 					</div>
 				</div>

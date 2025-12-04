@@ -7,7 +7,7 @@ import { Code, Globe, Smartphone, Database, Palette, Boxes, Rocket, Layout, Hear
 import { CAL_LINKS } from '~/lib/constants';
 
 export const metadata: Metadata = {
-  title: 'Our Services - Boba Tech',
+  title: 'Our Services - Bobadilla Tech',
   description: 'Full-stack development, AI integration, and enterprise solutions. From MVP development to industry-specific solutions.',
 };
 
