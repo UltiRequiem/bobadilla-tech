@@ -1,13 +1,13 @@
 import { drizzle } from "drizzle-orm/libsql";
-import { createClient } from "@libsql/client";
+import { createClient } from "@libsql/client/web";
 import { env } from "~/env";
 import * as schema from "./schema";
 
 /**
- * Turso/libSQL client configuration
- * Uses local SQLite in development, Turso cloud in production
+ * Turso/libSQL client configuration for Cloudflare Workers
+ * Uses @libsql/client/web for edge compatibility
  */
-const tursoClient = createClient({
+const client = createClient({
   url: env.TURSO_DATABASE_URL,
   authToken: env.TURSO_AUTH_TOKEN,
 });
@@ -16,4 +16,4 @@ const tursoClient = createClient({
  * Drizzle ORM instance with Turso client
  * Type-safe database access with full schema support
  */
-export const db = drizzle(tursoClient, { schema });
+export const db = drizzle({ client, schema });

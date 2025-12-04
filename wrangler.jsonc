@@ -42,7 +42,7 @@
 			"name": "SEND_EMAIL",
 			"destination_address": "eliaz@bobadilla.work"
 		}
-	]
+	],
 	/**
 	 * Environment Variables
 	 * https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
