@@ -77,9 +77,9 @@ export async function POST(request: NextRequest) {
         {
           success: false,
           message: "Invalid form data",
-          errors: error.errors.map((e) => ({
-            field: e.path[0],
-            message: e.message,
+          errors: error.issues.map((issue) => ({
+            field: issue.path[0],
+            message: issue.message,
           })),
         },
         { status: 400 }

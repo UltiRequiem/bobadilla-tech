@@ -33,7 +33,7 @@ export const ContactNotification = ({
         <Heading style={h1}>🎉 New Contact Form Submission</Heading>
 
         <Text style={text}>
-          You've received a new message from the Boba Tech contact form:
+          You&apos;ve received a new message from the Boba Tech contact form:
         </Text>
 
         <Section style={infoSection}>
@@ -101,7 +101,7 @@ ContactNotification.PreviewProps = {
   email: "john@example.com",
   company: "Acme Corp",
   message:
-    "Hi, I'm interested in your MVP development services. Can we schedule a call to discuss our project?",
+    "Hi, I&apos;m interested in your MVP development services. Can we schedule a call to discuss our project?",
   createdAt: new Date(),
 } as ContactNotificationProps;
 
