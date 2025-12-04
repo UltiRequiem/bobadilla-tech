@@ -1,24 +1,27 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { drizzle } from "drizzle-orm/libsql";
-import { createClient } from "libsql-stateless-easy";
-import { env } from "~/env";
+import { drizzle } from "drizzle-orm/d1";
+import type { D1Database } from "@cloudflare/workers-types";
 import * as schema from "./schema";
 
 /**
- * Turso/libSQL client configuration for Cloudflare Workers
- * Uses libsql-stateless-easy - a drop-in replacement designed for edge/serverless environments
- * This package works perfectly with OpenNext.js Cloudflare bundler
+ * Cloudflare D1 database client configuration
+ * D1 is Cloudflare's native serverless SQL database built on SQLite
  *
- * @see https://www.npmjs.com/package/libsql-stateless-easy
- * @see https://github.com/tursodatabase/libsql-client-ts/issues/303
+ * Note: D1 binding is provided by the Cloudflare Workers runtime
+ * The database connection is established automatically via the binding in wrangler.jsonc
+ *
+ * @see https://developers.cloudflare.com/d1/
+ * @see https://orm.drizzle.team/docs/get-started-sqlite#cloudflare-d1
  */
-const client: any = createClient({
-  url: env.TURSO_DATABASE_URL,
-  authToken: env.TURSO_AUTH_TOKEN,
-});
 
 /**
- * Drizzle ORM instance with Turso client
- * Type-safe database access with full schema support
+ * Get Drizzle ORM instance with D1 database
+ * @param d1Database D1Database instance from Cloudflare Workers binding
+ * @returns Drizzle ORM instance with full schema support
  */
-export const db = drizzle(client, { schema });
+export function getDb(d1Database: D1Database) {
+	return drizzle(d1Database, { schema });
+}
+
+// For backward compatibility and easier usage in API routes
+// This will be initialized per-request with the D1 binding
+export type DbInstance = ReturnType<typeof getDb>;

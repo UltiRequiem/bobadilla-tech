@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1764812567403,
+      "tag": "0000_daffy_jimmy_woo",
+      "breakpoints": true
+    }
+  ]
+}

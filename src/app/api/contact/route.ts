@@ -5,6 +5,7 @@ import {
 	successResponse,
 	validationErrorResponse,
 } from "~/lib/server/api-response";
+import { getDb } from "~/db/client";
 import { insertContactMessage } from "./db";
 import { sendEmailNotification } from "./email-notification";
 import { logContactSubmission } from "./logger";
@@ -12,10 +13,15 @@ import { contactSchema } from "./validation";
 
 export async function POST(request: NextRequest) {
 	try {
+		// Get D1 database from Cloudflare Workers binding
+		// @ts-expect-error - Cloudflare env is available in production via OpenNext
+		const env = request.cloudflare?.env || {};
+		const db = getDb(env.DB);
+
 		const body = await request.json();
 		const validatedData = contactSchema.parse(body);
 
-		const insertedMessage = await insertContactMessage(validatedData);
+		const insertedMessage = await insertContactMessage(db, validatedData);
 
 		logContactSubmission(insertedMessage);
 

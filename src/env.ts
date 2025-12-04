@@ -10,11 +10,6 @@ export const env = createEnv({
 			.enum(["development", "production", "test"])
 			.default("development"),
 
-		// Turso Database Configuration
-		TURSO_DATABASE_URL: z.string(),
-		// Token is optional in development (for local DB usage)
-		TURSO_AUTH_TOKEN: z.string().min(1).optional(),
-
 		// Email Worker URL (external worker for sending emails)
 		EMAIL_WORKER_URL: z.string().url().optional(),
 		// Email Worker API Key (for authenticating requests to the worker)

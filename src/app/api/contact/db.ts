@@ -1,4 +1,4 @@
-import { db } from "~/db/client";
+import type { DbInstance } from "~/db/client";
 import { contactMessages } from "~/db/schema";
 
 interface ContactMessageData {
@@ -10,10 +10,14 @@ interface ContactMessageData {
 
 /**
  * Insert a new contact message into the database
+ * @param db Drizzle database instance
  * @param data Contact message data
  * @returns The inserted message with generated fields
  */
-export async function insertContactMessage(data: ContactMessageData) {
+export async function insertContactMessage(
+	db: DbInstance,
+	data: ContactMessageData,
+) {
 	const [insertedMessage] = await db
 		.insert(contactMessages)
 		.values({
