@@ -1,5 +1,10 @@
 import { env } from "~/env";
 
+/**
+ * Email notification service using external email worker microservice
+ * @see https://github.com/UltiRequiem/email-worker
+ */
+
 interface ContactData {
 	name: string;
 	email: string;

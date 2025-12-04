@@ -339,7 +339,6 @@ export default function PricingCalculator() {
     );
   }
 
-  const hoveredOptionData = hoveredOption ? currentStepData.options.find(opt => opt.id === hoveredOption) : null;
 
   return (
     <div className="min-h-screen bg-slate-950">
