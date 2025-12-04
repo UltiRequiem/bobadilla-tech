@@ -104,7 +104,7 @@ export function generateMetadata(config: SEOConfig): Metadata {
 			card: twitterCard,
 			title: fullTitle,
 			description,
-			images: [ogImage],
+			images: ogImage ? [ogImage] : undefined,
 			creator: "@UltiRequiem",
 			site: "@UltiRequiem",
 		},
@@ -283,13 +283,9 @@ export function generateFAQSchema(faqs: Array<{ question: string; answer: string
 }
 
 /**
- * Component to inject JSON-LD structured data
+ * Helper to serialize structured data for injection
+ * Usage: <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeStructuredData(data) }} />
  */
-export function StructuredData({ data }: { data: Record<string, unknown> }) {
-	return (
-		<script
-			type="application/ld+json"
-			dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-		/>
-	);
+export function serializeStructuredData(data: Record<string, unknown>): string {
+	return JSON.stringify(data);
 }
