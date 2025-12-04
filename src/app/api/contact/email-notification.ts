@@ -5,7 +5,7 @@ interface ContactData {
 	email: string;
 	company?: string | null;
 	message: string;
-	createdAt: string;
+	createdAt: string | Date;
 }
 
 /**
