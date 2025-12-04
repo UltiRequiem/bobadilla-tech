@@ -45,20 +45,6 @@
       "database_name": "bobadilla-work",
       "database_id": "78c9ec9c-98be-4426-870a-20ce74f40c10"
     }
-  ],
-  /**
-	 * Email Routing - Send emails from Workers
-	 * https://developers.cloudflare.com/email-routing/email-workers/send-email-workers/
-	 */
-  "send_email": [
-    {
-      "name": "SEND_EMAIL",
-      "destination_address": "ale@bobadilla.work"
-    },
-    {
-      "name": "SEND_EMAIL",
-      "destination_address": "eliaz@bobadilla.work"
-    }
   ]
   /**
 	 * Environment Variables
