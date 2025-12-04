@@ -12,11 +12,5 @@ interface ContactSubmission {
  * @param submission Contact form submission data
  */
 export function logContactSubmission(submission: ContactSubmission): void {
-	console.log("📧 New contact form submission:");
-	console.log(`   Name: ${submission.name}`);
-	console.log(`   Email: ${submission.email}`);
-	console.log(`   Company: ${submission.company || "N/A"}`);
-	console.log(`   Message: ${submission.message.substring(0, 100)}...`);
-	console.log(`   ID: ${submission.id}`);
-	console.log(`   Time: ${submission.createdAt.toISOString()}`);
+	console.log(`📧 New contact form submission: ID=${submission.id}, Name="${submission.name}", Email="${submission.email}", Company="${submission.company || "N/A"}", Message="${submission.message.substring(0, 100)}...", Time=${submission.createdAt.toISOString()}`);
 }

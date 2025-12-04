@@ -3,6 +3,25 @@
 import { useState } from "react";
 import { AlertCircle, Calendar, CheckCircle, Github, Linkedin, Loader2, Mail } from "lucide-react";
 import { motion } from "framer-motion";
+import { z } from "zod";
+
+// Validation schema (matches backend)
+const contactSchema = z.object({
+	name: z.string().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
+	email: z.string().email("Invalid email address"),
+	company: z.string().max(100, "Company name must be less than 100 characters").optional(),
+	message: z
+		.string()
+		.min(10, "Message must be at least 10 characters")
+		.max(2000, "Message must be less than 2000 characters"),
+});
+
+type FieldErrors = {
+	name?: string;
+	email?: string;
+	company?: string;
+	message?: string;
+};
 
 export default function Contact() {
 	const [formData, setFormData] = useState({
@@ -13,11 +32,43 @@ export default function Contact() {
 	});
 	const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 	const [errorMessage, setErrorMessage] = useState("");
+	const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
+	const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({});
+
+	const validateField = (name: string, value: string) => {
+		try {
+			const fieldSchema = contactSchema.shape[name as keyof typeof contactSchema.shape];
+			fieldSchema.parse(value);
+			setFieldErrors((prev) => ({ ...prev, [name]: undefined }));
+		} catch (error) {
+			if (error instanceof z.ZodError) {
+				setFieldErrors((prev) => ({ ...prev, [name]: error.issues[0]?.message }));
+			}
+		}
+	};
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setStatus("loading");
 		setErrorMessage("");
+		setFieldErrors({});
+
+		// Validate all fields before submitting
+		try {
+			contactSchema.parse(formData);
+		} catch (error) {
+			if (error instanceof z.ZodError) {
+				const errors: FieldErrors = {};
+				error.issues.forEach((err) => {
+					const field = err.path[0] as keyof FieldErrors;
+					if (field) errors[field] = err.message;
+				});
+				setFieldErrors(errors);
+				setStatus("error");
+				setErrorMessage("Please fix the errors below");
+				return;
+			}
+		}
 
 		try {
 			const response = await fetch("/api/contact", {
@@ -35,6 +86,8 @@ export default function Contact() {
 			setStatus("success");
 			// Reset form
 			setFormData({ name: "", email: "", company: "", message: "" });
+			setFieldErrors({});
+			setTouchedFields({});
 
 			// Reset success message after 5 seconds
 			setTimeout(() => setStatus("idle"), 5000);
@@ -46,10 +99,22 @@ export default function Contact() {
 	};
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+		const { name, value } = e.target;
 		setFormData((prev) => ({
 			...prev,
-			[e.target.name]: e.target.value,
+			[name]: value,
 		}));
+
+		// Validate field if it's been touched
+		if (touchedFields[name]) {
+			validateField(name, value);
+		}
+	};
+
+	const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+		const { name, value } = e.target;
+		setTouchedFields((prev) => ({ ...prev, [name]: true }));
+		validateField(name, value);
 	};
 
 	return (
@@ -102,11 +167,18 @@ export default function Contact() {
 										name="name"
 										value={formData.name}
 										onChange={handleChange}
-										required
+										onBlur={handleBlur}
 										disabled={status === "loading"}
-										className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+										className={`w-full px-4 py-3 bg-white/5 border rounded-lg text-white placeholder-gray-500 focus:outline-none transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed ${
+											fieldErrors.name
+												? "border-red-500/50 focus:border-red-500"
+												: "border-white/10 focus:border-cyan-500/50"
+										}`}
 										placeholder="Your name"
 									/>
+									{fieldErrors.name && (
+										<p className="mt-1 text-sm text-red-400">{fieldErrors.name}</p>
+									)}
 								</div>
 
 								<div>
@@ -122,11 +194,18 @@ export default function Contact() {
 										name="email"
 										value={formData.email}
 										onChange={handleChange}
-										required
+										onBlur={handleBlur}
 										disabled={status === "loading"}
-										className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+										className={`w-full px-4 py-3 bg-white/5 border rounded-lg text-white placeholder-gray-500 focus:outline-none transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed ${
+											fieldErrors.email
+												? "border-red-500/50 focus:border-red-500"
+												: "border-white/10 focus:border-cyan-500/50"
+										}`}
 										placeholder="your@email.com"
 									/>
+									{fieldErrors.email && (
+										<p className="mt-1 text-sm text-red-400">{fieldErrors.email}</p>
+									)}
 								</div>
 
 								<div>
@@ -142,10 +221,18 @@ export default function Contact() {
 										name="company"
 										value={formData.company}
 										onChange={handleChange}
+										onBlur={handleBlur}
 										disabled={status === "loading"}
-										className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+										className={`w-full px-4 py-3 bg-white/5 border rounded-lg text-white placeholder-gray-500 focus:outline-none transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed ${
+											fieldErrors.company
+												? "border-red-500/50 focus:border-red-500"
+												: "border-white/10 focus:border-cyan-500/50"
+										}`}
 										placeholder="Your company"
 									/>
+									{fieldErrors.company && (
+										<p className="mt-1 text-sm text-red-400">{fieldErrors.company}</p>
+									)}
 								</div>
 
 								<div>
@@ -160,12 +247,19 @@ export default function Contact() {
 										name="message"
 										value={formData.message}
 										onChange={handleChange}
-										required
+										onBlur={handleBlur}
 										disabled={status === "loading"}
 										rows={4}
-										className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 transition-colors duration-300 resize-none disabled:opacity-50 disabled:cursor-not-allowed"
+										className={`w-full px-4 py-3 bg-white/5 border rounded-lg text-white placeholder-gray-500 focus:outline-none transition-colors duration-300 resize-none disabled:opacity-50 disabled:cursor-not-allowed ${
+											fieldErrors.message
+												? "border-red-500/50 focus:border-red-500"
+												: "border-white/10 focus:border-cyan-500/50"
+										}`}
 										placeholder="Tell us about your project..."
 									/>
+									{fieldErrors.message && (
+										<p className="mt-1 text-sm text-red-400">{fieldErrors.message}</p>
+									)}
 								</div>
 
 								{/* Status Messages */}
