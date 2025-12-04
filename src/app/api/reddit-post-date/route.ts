@@ -1,5 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+// Reddit API response type
+interface RedditApiResponse {
+  data?: {
+    children?: Array<{
+      data?: {
+        created_utc?: number;
+      };
+    }>;
+  };
+}
+
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const url = searchParams.get('url');
@@ -44,8 +55,8 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const data = await response.json();
-    const postData = data[0]?.data?.children[0]?.data;
+    const data = await response.json() as RedditApiResponse[];
+    const postData = data[0]?.data?.children?.[0]?.data;
 
     if (!postData || !postData.created_utc) {
       return NextResponse.json(

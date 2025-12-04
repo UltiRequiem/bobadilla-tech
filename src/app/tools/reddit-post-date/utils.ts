@@ -5,6 +5,10 @@ export interface RedditPostDate {
   postId: string;
 }
 
+interface ApiErrorResponse {
+  error?: string;
+}
+
 /**
  * Validates a Reddit URL and extracts the post ID
  * @param url - The Reddit post URL
@@ -39,11 +43,11 @@ export async function fetchRedditPostDate(url: string): Promise<RedditPostDate> 
     const response = await fetch(`/api/reddit-post-date?url=${encodeURIComponent(url)}`);
 
     if (!response.ok) {
-      const errorData = await response.json();
+      const errorData = await response.json() as ApiErrorResponse;
       throw new Error(errorData.error || 'Failed to fetch post data from Reddit.');
     }
 
-    const data = await response.json();
+    const data = await response.json() as RedditPostDate;
 
     if (!data.timestamp || !data.postId) {
       throw new Error('Invalid response from API');
