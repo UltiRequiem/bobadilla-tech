@@ -31,11 +31,11 @@
 		"framer-motion": "^12.23.25",
 		"jiti": "^2.6.1",
 		"lucide-react": "^0.555.0",
+		"mimetext": "^3.0.27",
 		"next": "15.5.7",
 		"react": "19.1.2",
 		"react-dom": "19.1.2",
 		"react-email": "^5.0.5",
-		"resend": "^6.5.2",
 		"three": "^0.181.2",
 		"zod": "^4.1.13"
 	},

@@ -1,10 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "~/db/client";
 import { contactMessages } from "~/db/schema";
-import { env } from "~/env";
-import { Resend } from "resend";
-import { ContactNotification } from "~/emails/ContactNotification";
+import { sendContactNotification } from "~/lib/email";
 
 // Validation schema for contact form
 const contactSchema = z.object({
@@ -31,39 +30,34 @@ export async function POST(request: NextRequest) {
       })
       .returning();
 
-    // Send email notifications if Resend API key is configured
-    if (env.RESEND_API_KEY) {
-      try {
-        const resend = new Resend(env.RESEND_API_KEY);
+    // Log the submission for internal tracking
+    console.log("📧 New contact form submission:");
+    console.log(`   Name: ${validatedData.name}`);
+    console.log(`   Email: ${validatedData.email}`);
+    console.log(`   Company: ${validatedData.company || "N/A"}`);
+    console.log(`   Message: ${validatedData.message.substring(0, 100)}...`);
+    console.log(`   ID: ${insertedMessage.id}`);
+    console.log(`   Time: ${insertedMessage.createdAt.toISOString()}`);
 
-        // Send notification emails to both ale and eliaz
-        const recipients = ["ale@bobadilla.work", "eliaz@bobadilla.work"];
+    // Send email notification via Cloudflare Email Workers
+    try {
+      // Access Cloudflare bindings from request context (OpenNext.js)
+      // @ts-expect-error - Cloudflare env is available in production
+      const env = request.cloudflare?.env || process.env;
 
-        await Promise.all(
-          recipients.map((to) =>
-            resend.emails.send({
-              from: "Boba Tech Contact Form <contact@bobadilla.work>",
-              to,
-              subject: `New Contact Form Submission from ${validatedData.name}`,
-              react: ContactNotification({
-                name: validatedData.name,
-                email: validatedData.email,
-                company: validatedData.company,
-                message: validatedData.message,
-                createdAt: insertedMessage.createdAt,
-              }),
-            })
-          )
-        );
-
-        console.log("✓ Email notifications sent successfully");
-      } catch (emailError) {
-        // Log email error but don't fail the request
-        console.error("✗ Failed to send email notifications:", emailError);
-        // Continue - message was saved to database
-      }
-    } else {
-      console.log("ℹ Email notifications disabled (no RESEND_API_KEY)");
+      await sendContactNotification(
+        {
+          name: validatedData.name,
+          email: validatedData.email,
+          company: validatedData.company,
+          message: validatedData.message,
+          createdAt: insertedMessage.createdAt,
+        },
+        env
+      );
+    } catch (emailError) {
+      // Log error but don't fail the request - message is already saved
+      console.error("Email notification failed:", emailError);
     }
 
     return NextResponse.json(

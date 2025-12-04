@@ -14,9 +14,6 @@ export const env = createEnv({
 		TURSO_DATABASE_URL: z.string(),
 		// Token is optional in development (for local DB usage)
 		TURSO_AUTH_TOKEN: z.string().min(1).optional(),
-
-		// Resend Email Configuration (optional - form will work without email)
-		RESEND_API_KEY: z.string().min(1).optional(),
 	},
 
 	/**
