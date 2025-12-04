@@ -2,7 +2,8 @@
 
 ## Overview
 
-Your contact form uses **Cloudflare Email Workers** for sending emails. This is a 100% Cloudflare-native solution that's completely free!
+Your contact form uses **Cloudflare Email Workers** for sending emails. This is
+a 100% Cloudflare-native solution that's completely free!
 
 ## What's Included
 
@@ -62,7 +63,8 @@ This will deploy your application with email sending capabilities.
 2. Check both personal email inboxes
 3. You should receive a beautiful HTML email with the form details
 
-**That's it!** Configuration is already done, just enable Email Routing and deploy!
+**That's it!** Configuration is already done, just enable Email Routing and
+deploy!
 
 ## How It Works
 
@@ -80,16 +82,15 @@ Email delivered to ale@bobadilla.work & eliaz@bobadilla.work
 
 ## Features
 
-✅ **100% Free** - No costs, no API keys
-✅ **Cloudflare Native** - Works with Workers/Pages
-✅ **React Email** - Beautiful HTML templates
-✅ **Direct Reply** - Reply-to sender's email
-✅ **Dual Recipients** - Both team members notified
-✅ **Database Backup** - All messages saved to Turso
+✅ **100% Free** - No costs, no API keys ✅ **Cloudflare Native** - Works with
+Workers/Pages ✅ **React Email** - Beautiful HTML templates ✅ **Direct
+Reply** - Reply-to sender's email ✅ **Dual Recipients** - Both team members
+notified ✅ **Database Backup** - All messages saved to Turso
 
 ## Email Template
 
 Your emails include:
+
 - Sender information (name, email, company)
 - Full message content
 - Timestamp
@@ -103,6 +104,7 @@ Your emails include:
 The contact form is configured in two places:
 
 **1. wrangler.jsonc** - Email sending permissions:
+
 ```jsonc
 "send_email": [
   {
@@ -117,13 +119,16 @@ The contact form is configured in two places:
 ```
 
 **2. src/lib/email.ts** - Email recipients:
+
 ```typescript
 const recipients = ["ale@bobadilla.work", "eliaz@bobadilla.work"];
 ```
 
-**3. src/app/api/contact/route.ts** - API endpoint that handles form submissions and sends emails
+**3. src/app/api/contact/route.ts** - API endpoint that handles form submissions
+and sends emails
 
 ### Email Details
+
 - **From:** `contact-us@bobadilla.work`
 - **To:** `ale@bobadilla.work`, `eliaz@bobadilla.work`
 - **Reply-To:** Sender's email address
@@ -131,6 +136,7 @@ const recipients = ["ale@bobadilla.work", "eliaz@bobadilla.work"];
 ### Customization
 
 To change recipients:
+
 1. Update `wrangler.jsonc` - Add/remove destination addresses
 2. Update `src/lib/email.ts` - Match the recipients array
 3. Redeploy: `npm run deploy`
@@ -140,15 +146,17 @@ To change recipients:
 ### Check Email Delivery
 
 **Option 1: Email Logs**
+
 - Cloudflare Dashboard → Email Routing → Logs
 - View all sent/received emails
 
 **Option 2: Application Logs**
+
 - Terminal shows: `✓ Email sent to...`
 - Or: `✗ Failed to send to...` if error
 
-**Option 3: Database**
-All submissions saved regardless of email status:
+**Option 3: Database** All submissions saved regardless of email status:
+
 ```bash
 npm run db:studio
 ```
@@ -165,6 +173,7 @@ npm run db:studio
 ### DNS Issues?
 
 Required DNS records (auto-added by Cloudflare):
+
 - MX record pointing to Cloudflare
 - SPF record for email authentication
 - DKIM record (optional but recommended)
@@ -177,7 +186,8 @@ To improve deliverability and avoid spam folder:
 2. Follow the instructions to add DKIM records
 3. Cloudflare will provide the specific TXT records to add to your DNS
 
-This authenticates emails from your domain and significantly improves delivery rates.
+This authenticates emails from your domain and significantly improves delivery
+rates.
 
 ## Production Checklist
 
@@ -186,7 +196,8 @@ This authenticates emails from your domain and significantly improves delivery r
 - [x] Implement email sending with React Email templates
 - [x] Update sender address to `contact-us@bobadilla.work`
 - [ ] Enable Email Routing in Cloudflare Dashboard
-- [ ] Add and verify destination addresses (ale@bobadilla.work, eliaz@bobadilla.work)
+- [ ] Add and verify destination addresses (ale@bobadilla.work,
+      eliaz@bobadilla.work)
 - [ ] Deploy to Cloudflare: `npm run deploy`
 - [ ] Test contact form submission in production
 - [ ] Check emails arrive (both recipients)
@@ -195,14 +206,14 @@ This authenticates emails from your domain and significantly improves delivery r
 
 ## Cost Breakdown
 
-| Service | Cost |
-|---------|------|
-| Cloudflare Email Routing | Free |
-| Cloudflare Email Workers | Free |
-| Turso Database | Free (500MB) |
+| Service                  | Cost                |
+| ------------------------ | ------------------- |
+| Cloudflare Email Routing | Free                |
+| Cloudflare Email Workers | Free                |
+| Turso Database           | Free (500MB)        |
 | Cloudflare Workers/Pages | Free (100k req/day) |
-| React Email | Free (open source) |
-| **Total** | **$0/month** 🎉 |
+| React Email              | Free (open source)  |
+| **Total**                | **$0/month** 🎉     |
 
 ## Resources
 
@@ -214,17 +225,18 @@ This authenticates emails from your domain and significantly improves delivery r
 ## Support
 
 If emails aren't working:
+
 1. Check Cloudflare Email Routing is enabled
 2. Verify destination addresses in Cloudflare
 3. Check application logs for errors
 4. View database to confirm form submissions are saved
 
-All messages are saved to database first, so you won't lose any submissions even if email fails!
+All messages are saved to database first, so you won't lose any submissions even
+if email fails!
 
 ---
 
-**Setup Date:** December 3, 2025
-**Email Sender:** contact-us@bobadilla.work
-**Email Recipients:** ale@bobadilla.work, eliaz@bobadilla.work
-**Status:** Ready to enable in Cloudflare Dashboard
-**Configuration:** Complete - just enable Email Routing and deploy!
+**Setup Date:** December 3, 2025 **Email Sender:** contact-us@bobadilla.work
+**Email Recipients:** ale@bobadilla.work, eliaz@bobadilla.work **Status:** Ready
+to enable in Cloudflare Dashboard **Configuration:** Complete - just enable
+Email Routing and deploy!

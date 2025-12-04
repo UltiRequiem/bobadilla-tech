@@ -3,14 +3,17 @@
 ## What Was Done
 
 ### 1. Installed Dependencies
+
 - `@t3-oss/env-nextjs` - Type-safe environment variable validation
 - `zod` - Schema validation library
 - `jiti` - Import TypeScript files in JavaScript config
 
 ### 2. Created Environment Schema
+
 **File:** `src/env.ts`
 
 Configured with:
+
 - ✅ `NODE_ENV` - Environment type (development/production/test)
 - ✅ `TURSO_DATABASE_URL` - Database connection URL
 - ✅ `TURSO_AUTH_TOKEN` - Optional auth token (for production only)
@@ -18,6 +21,7 @@ Configured with:
 ### 3. Environment Files Created
 
 #### `.env` (Development - Local)
+
 ```env
 NODE_ENV=development
 TURSO_DATABASE_URL=file:local.db
@@ -25,6 +29,7 @@ TURSO_DATABASE_URL=file:local.db
 ```
 
 #### `.env.production` (Production - Turso Cloud)
+
 ```env
 NODE_ENV=production
 TURSO_DATABASE_URL=libsql://boba-tech-prod-ultirequiem.aws-us-east-1.turso.io
@@ -32,6 +37,7 @@ TURSO_AUTH_TOKEN=<production-token>
 ```
 
 #### `.env.example` (Template for developers)
+
 ```env
 NODE_ENV=development
 TURSO_DATABASE_URL=file:local.db
@@ -41,14 +47,17 @@ TURSO_DATABASE_URL=file:local.db
 ### 4. Configuration Updates
 
 #### `next.config.js` (Migrated from .ts)
+
 - Added jiti import for TypeScript support
 - Added env validation at build time
 - Maintains Cloudflare OpenNext configuration
 
 #### `package.json`
+
 - Added `"type": "module"` for ES module support
 
 #### `.gitignore`
+
 - Added `.env` files to ignore list (except `.env.example`)
 - Added `local.db` and SQLite journal files
 
@@ -61,6 +70,7 @@ TURSO_DATABASE_URL=file:local.db
 ## How to Use
 
 ### Development (Default)
+
 ```bash
 # 1. Copy example env
 cp .env.example .env
@@ -70,12 +80,15 @@ npm run dev
 ```
 
 ### Production
+
 Environment variables are set in Cloudflare Pages dashboard:
+
 - `NODE_ENV=production`
 - `TURSO_DATABASE_URL=libsql://boba-tech-prod-ultirequiem.aws-us-east-1.turso.io`
 - `TURSO_AUTH_TOKEN=<your-token>`
 
 ### In Your Code
+
 ```typescript
 import { env } from "~/env";
 
@@ -86,32 +99,31 @@ const authToken = env.TURSO_AUTH_TOKEN; // string | undefined
 
 ## Key Features
 
-✅ **Type-safe** - Full TypeScript support with autocomplete
-✅ **Validated** - Zod schemas validate at build time
-✅ **Optional token** - TURSO_AUTH_TOKEN not required in development
-✅ **Local-first** - Use local SQLite in development by default
-✅ **Production-ready** - Seamless Turso cloud integration
-✅ **Developer-friendly** - Clear error messages when validation fails
-✅ **Secure** - Server variables never exposed to client
+✅ **Type-safe** - Full TypeScript support with autocomplete ✅ **Validated** -
+Zod schemas validate at build time ✅ **Optional token** - TURSO_AUTH_TOKEN not
+required in development ✅ **Local-first** - Use local SQLite in development by
+default ✅ **Production-ready** - Seamless Turso cloud integration ✅
+**Developer-friendly** - Clear error messages when validation fails ✅
+**Secure** - Server variables never exposed to client
 
 ## Environment Variable Summary
 
-| Variable | Required | Default | Development | Production |
-|----------|----------|---------|-------------|------------|
-| `NODE_ENV` | No | `development` | `development` | `production` |
-| `TURSO_DATABASE_URL` | Yes | - | `file:local.db` | `libsql://...` |
-| `TURSO_AUTH_TOKEN` | No | - | Not needed | Required |
+| Variable             | Required | Default       | Development     | Production     |
+| -------------------- | -------- | ------------- | --------------- | -------------- |
+| `NODE_ENV`           | No       | `development` | `development`   | `production`   |
+| `TURSO_DATABASE_URL` | Yes      | -             | `file:local.db` | `libsql://...` |
+| `TURSO_AUTH_TOKEN`   | No       | -             | Not needed      | Required       |
 
 ## Important Notes
 
-⚠️ **Never commit** `.env` or `.env.production` to git
-⚠️ **Always commit** `.env.example` as a template
-⚠️ **Auth token** is optional - only needed for Turso cloud
-⚠️ **Local database** (local.db) is auto-created and gitignored
+⚠️ **Never commit** `.env` or `.env.production` to git ⚠️ **Always commit**
+`.env.example` as a template ⚠️ **Auth token** is optional - only needed for
+Turso cloud ⚠️ **Local database** (local.db) is auto-created and gitignored
 
 ## Validation
 
 Environment variables are validated:
+
 - ✅ At build time (via next.config.js)
 - ✅ At runtime (via src/env.ts)
 - ✅ Before any code runs
@@ -119,14 +131,17 @@ Environment variables are validated:
 ## Troubleshooting
 
 ### "TURSO_AUTH_TOKEN is required"
+
 - Check you're using `file:local.db` for local development
 - In production, ensure the token is set in Cloudflare dashboard
 
 ### Build fails with validation error
+
 - Check all required variables are in your `.env` file
 - Ensure URLs are valid (start with `file:` or `libsql://`)
 
 ### Variables not updating
+
 - Restart dev server after changing `.env`
 - Clear `.next` folder: `rm -rf .next`
 
@@ -164,5 +179,4 @@ Environment variables are validated:
 
 ---
 
-**Setup Date:** December 3, 2025
-**Status:** ✅ Complete and tested
+**Setup Date:** December 3, 2025 **Status:** ✅ Complete and tested

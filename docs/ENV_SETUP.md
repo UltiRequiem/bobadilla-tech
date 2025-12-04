@@ -1,6 +1,7 @@
 # Environment Variables Setup
 
-This project uses [T3 Env](https://env.t3.gg/) for type-safe environment variables with validation.
+This project uses [T3 Env](https://env.t3.gg/) for type-safe environment
+variables with validation.
 
 ## Quick Start
 
@@ -9,8 +10,8 @@ This project uses [T3 Env](https://env.t3.gg/) for type-safe environment variabl
    cp .env.example .env
    ```
 
-2. **For development (default):**
-   The `.env` file is already configured to use a local SQLite database:
+2. **For development (default):** The `.env` file is already configured to use a
+   local SQLite database:
    ```env
    NODE_ENV=development
    TURSO_DATABASE_URL=file:local.db
@@ -18,8 +19,8 @@ This project uses [T3 Env](https://env.t3.gg/) for type-safe environment variabl
 
    No auth token is required for local development.
 
-3. **For production:**
-   The production environment variables are stored in `.env.production` (not committed to git):
+3. **For production:** The production environment variables are stored in
+   `.env.production` (not committed to git):
    ```env
    NODE_ENV=production
    TURSO_DATABASE_URL=libsql://boba-tech-prod-ultirequiem.aws-us-east-1.turso.io
@@ -31,18 +32,22 @@ This project uses [T3 Env](https://env.t3.gg/) for type-safe environment variabl
 ### Server-side Variables
 
 #### `NODE_ENV`
+
 - **Type:** `"development" | "production" | "test"`
 - **Default:** `"development"`
 - **Description:** The environment the application is running in
 
 #### `TURSO_DATABASE_URL`
+
 - **Type:** `string` (URL)
 - **Required:** Yes
 - **Description:** The Turso database connection URL
 - **Development:** Use `file:local.db` for local SQLite
-- **Production:** Use `libsql://boba-tech-prod-ultirequiem.aws-us-east-1.turso.io`
+- **Production:** Use
+  `libsql://boba-tech-prod-ultirequiem.aws-us-east-1.turso.io`
 
 #### `TURSO_AUTH_TOKEN`
+
 - **Type:** `string`
 - **Required:** No (optional in development)
 - **Description:** Authentication token for Turso cloud database
@@ -69,7 +74,8 @@ const client = createClient({
 
 ## Validation
 
-Environment variables are validated at build time using Zod schemas defined in `src/env.ts`. This ensures:
+Environment variables are validated at build time using Zod schemas defined in
+`src/env.ts`. This ensures:
 
 - ✅ All required variables are present
 - ✅ Variables have the correct format (URLs, strings, etc.)
@@ -109,13 +115,15 @@ To add new environment variables:
 
 ## Cloudflare Pages Configuration
 
-For Cloudflare Pages deployment, add these environment variables in the Cloudflare dashboard:
+For Cloudflare Pages deployment, add these environment variables in the
+Cloudflare dashboard:
 
 1. Go to your Cloudflare Pages project
 2. Settings → Environment Variables
 3. Add production variables:
    - `NODE_ENV` = `production`
-   - `TURSO_DATABASE_URL` = `libsql://boba-tech-prod-ultirequiem.aws-us-east-1.turso.io`
+   - `TURSO_DATABASE_URL` =
+     `libsql://boba-tech-prod-ultirequiem.aws-us-east-1.turso.io`
    - `TURSO_AUTH_TOKEN` = `your-production-token`
 
 ## Security Notes
@@ -131,15 +139,18 @@ For Cloudflare Pages deployment, add these environment variables in the Cloudfla
 
 ### Build fails with "Invalid environment variables"
 
-Check the error message for which variable is invalid or missing. Ensure all required variables are set in your `.env` file.
+Check the error message for which variable is invalid or missing. Ensure all
+required variables are set in your `.env` file.
 
 ### "TURSO_AUTH_TOKEN is required"
 
-If you see this in development, make sure you're using `file:local.db` for `TURSO_DATABASE_URL`. The auth token is only required for cloud databases.
+If you see this in development, make sure you're using `file:local.db` for
+`TURSO_DATABASE_URL`. The auth token is only required for cloud databases.
 
 ### Variables not updating
 
 Restart your dev server after changing `.env` files:
+
 ```bash
 npm run dev
 ```
@@ -154,6 +165,7 @@ For local development, the project uses a local SQLite file:
 ```
 
 To reset your local database:
+
 ```bash
 rm local.db
 # Restart the dev server to recreate

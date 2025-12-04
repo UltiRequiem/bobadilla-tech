@@ -7,6 +7,7 @@ Your contact form email system is fully implemented and ready for deployment!
 ## What's Been Built
 
 ### 1. Contact Form with Database Storage
+
 - **Location:** Contact section on homepage
 - **Database:** Turso (SQLite-compatible)
 - **Schema:** [src/db/schema.ts](src/db/schema.ts)
@@ -18,11 +19,14 @@ Your contact form email system is fully implemented and ready for deployment!
   - Success/error messages
 
 ### 2. Email Notification System
+
 - **Implementation:** [src/lib/email.ts](src/lib/email.ts)
 - **API Endpoint:** [src/app/api/contact/route.ts](src/app/api/contact/route.ts)
-- **Email Template:** [src/emails/ContactNotification.tsx](src/emails/ContactNotification.tsx)
+- **Email Template:**
+  [src/emails/ContactNotification.tsx](src/emails/ContactNotification.tsx)
 
 #### Email Sending:
+
 - Uses official Cloudflare Email Workers API
 - Configured via `send_email` binding in [wrangler.jsonc](wrangler.jsonc)
 - No API keys needed
@@ -30,6 +34,7 @@ Your contact form email system is fully implemented and ready for deployment!
 - Works only in production (requires Cloudflare Email Routing enabled)
 
 ### 3. Email Features
+
 - **Beautiful HTML emails** using React Email
 - **Plain text fallback** for email clients
 - **Reply-to header** set to sender's email
@@ -40,6 +45,7 @@ Your contact form email system is fully implemented and ready for deployment!
 ## Configuration Files
 
 ### wrangler.jsonc
+
 ```jsonc
 "send_email": [
   {
@@ -54,6 +60,7 @@ Your contact form email system is fully implemented and ready for deployment!
 ```
 
 ### Environment Variables (.env)
+
 ```env
 # Database (development uses local SQLite)
 TURSO_DATABASE_URL="file:local.db"
@@ -66,12 +73,14 @@ TURSO_DATABASE_URL="file:local.db"
 ## Next Steps for Production
 
 ### 1. Enable Email Routing in Cloudflare
+
 1. Go to [Cloudflare Dashboard](https://dash.cloudflare.com)
 2. Select domain: **bobadilla.work**
 3. Navigate to **Email** → **Email Routing**
 4. Click **Enable Email Routing**
 
 ### 2. Verify Email Addresses
+
 1. In Email Routing, go to **Destination addresses**
 2. Add both addresses:
    - `ale@bobadilla.work`
@@ -79,11 +88,13 @@ TURSO_DATABASE_URL="file:local.db"
 3. Verify both emails (check your inbox)
 
 ### 3. Deploy to Cloudflare
+
 ```bash
 npm run deploy
 ```
 
 ### 4. Test the Contact Form
+
 1. Visit your deployed website
 2. Fill out the contact form
 3. Submit the form
@@ -111,20 +122,23 @@ User submits contact form
 
 ## Key Files
 
-| File | Purpose |
-|------|---------|
-| [wrangler.jsonc](wrangler.jsonc) | Cloudflare Worker configuration with email binding |
-| [src/lib/email.ts](src/lib/email.ts) | Email sending logic with dual-mode support |
-| [src/app/api/contact/route.ts](src/app/api/contact/route.ts) | API endpoint for form submissions |
-| [src/db/schema.ts](src/db/schema.ts) | Database schema for contact messages |
-| [src/emails/ContactNotification.tsx](src/emails/ContactNotification.tsx) | React Email template |
-| [src/components/sections/Contact.tsx](src/components/sections/Contact.tsx) | Contact form UI component |
+| File                                                                       | Purpose                                            |
+| -------------------------------------------------------------------------- | -------------------------------------------------- |
+| [wrangler.jsonc](wrangler.jsonc)                                           | Cloudflare Worker configuration with email binding |
+| [src/lib/email.ts](src/lib/email.ts)                                       | Email sending logic with dual-mode support         |
+| [src/app/api/contact/route.ts](src/app/api/contact/route.ts)               | API endpoint for form submissions                  |
+| [src/db/schema.ts](src/db/schema.ts)                                       | Database schema for contact messages               |
+| [src/emails/ContactNotification.tsx](src/emails/ContactNotification.tsx)   | React Email template                               |
+| [src/components/sections/Contact.tsx](src/components/sections/Contact.tsx) | Contact form UI component                          |
 
 ## Testing Locally
 
-During local development (`npm run dev`), the contact form will save submissions to the database but email sending will fail since the Cloudflare Email Workers binding is only available in production.
+During local development (`npm run dev`), the contact form will save submissions
+to the database but email sending will fail since the Cloudflare Email Workers
+binding is only available in production.
 
 To fully test the email functionality, you need to:
+
 1. Deploy to Cloudflare
 2. Enable Email Routing in Cloudflare Dashboard
 3. Test the contact form on your deployed site
@@ -132,11 +146,13 @@ To fully test the email functionality, you need to:
 ## Monitoring
 
 ### Check Email Delivery
+
 - **Cloudflare Dashboard** → Email Routing → Logs
 - **Application Logs:** `✓ Email sent to...` or `✗ Failed to send...`
 - **Database:** All submissions saved regardless of email status
 
 ### View All Messages
+
 ```bash
 npm run db:studio
 ```
@@ -145,14 +161,14 @@ Opens Drizzle Studio at http://localhost:4983
 
 ## Cost Breakdown
 
-| Service | Cost |
-|---------|------|
-| Cloudflare Email Routing | Free |
-| Cloudflare Email Workers | Free |
-| Turso Database | Free (500MB) |
+| Service                  | Cost                |
+| ------------------------ | ------------------- |
+| Cloudflare Email Routing | Free                |
+| Cloudflare Email Workers | Free                |
+| Turso Database           | Free (500MB)        |
 | Cloudflare Workers/Pages | Free (100k req/day) |
-| React Email | Free (open source) |
-| **Total** | **$0/month** 🎉 |
+| React Email              | Free (open source)  |
+| **Total**                | **$0/month** 🎉     |
 
 ## Security Features
 
@@ -205,6 +221,5 @@ If you encounter any issues:
 
 ---
 
-**Status:** ✅ Ready for production deployment
-**Last Updated:** December 3, 2025
-**Next Action:** Enable Email Routing in Cloudflare Dashboard and deploy
+**Status:** ✅ Ready for production deployment **Last Updated:** December 3,
+2025 **Next Action:** Enable Email Routing in Cloudflare Dashboard and deploy

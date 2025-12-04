@@ -2,7 +2,8 @@
 
 ## Overview
 
-The contact form has been fully implemented with database storage and email notifications to ale@bobadilla.work and eliaz@bobadilla.work.
+The contact form has been fully implemented with database storage and email
+notifications to ale@bobadilla.work and eliaz@bobadilla.work.
 
 ## What Was Built
 
@@ -46,6 +47,7 @@ export const contactMessages = sqliteTable("contact_messages", {
 **File:** `src/app/api/contact/route.ts`
 
 **Features:**
+
 - ✅ Validates form data with Zod schema
 - ✅ Stores message in Turso database
 - ✅ Sends email notifications via Resend
@@ -58,6 +60,7 @@ export const contactMessages = sqliteTable("contact_messages", {
 **File:** `src/components/sections/Contact.tsx`
 
 **Features:**
+
 - ✅ Form validation (required fields)
 - ✅ Loading states with spinner
 - ✅ Success/error feedback messages
@@ -78,7 +81,8 @@ This creates `local.db` in your project root (gitignored).
 
 ### Production
 
-For production, the schema will be automatically synced to Turso cloud database using the credentials in `.env.production`.
+For production, the schema will be automatically synced to Turso cloud database
+using the credentials in `.env.production`.
 
 ## Email Configuration (Optional)
 
@@ -96,11 +100,13 @@ RESEND_API_KEY=re_your_api_key_here
 ### Without Email
 
 The form works perfectly without email configuration! Messages are still:
+
 - ✅ Saved to database
 - ✅ Validated properly
 - ✅ Shown success message
 
 You'll just see this in logs:
+
 ```
 ℹ Email notifications disabled (no RESEND_API_KEY)
 ```
@@ -126,12 +132,12 @@ RESEND_API_KEY=re_xxx
 
 ## Form Fields
 
-| Field | Type | Required | Max Length | Validation |
-|-------|------|----------|------------|------------|
-| Name | text | Yes | 100 chars | Min 1 char |
-| Email | email | Yes | - | Valid email format |
-| Company | text | No | 100 chars | - |
-| Message | textarea | Yes | 2000 chars | Min 10 chars |
+| Field   | Type     | Required | Max Length | Validation         |
+| ------- | -------- | -------- | ---------- | ------------------ |
+| Name    | text     | Yes      | 100 chars  | Min 1 char         |
+| Email   | email    | Yes      | -          | Valid email format |
+| Company | text     | No       | 100 chars  | -                  |
+| Message | textarea | Yes      | 2000 chars | Min 10 chars       |
 
 ## API Response Format
 
@@ -190,6 +196,7 @@ npm run db:studio
 ```
 
 This opens a web UI at `https://local.drizzle.studio` where you can:
+
 - View all contact messages
 - See timestamps
 - Check data integrity
@@ -197,6 +204,7 @@ This opens a web UI at `https://local.drizzle.studio` where you can:
 ### Check Email (if configured)
 
 If `RESEND_API_KEY` is set, emails will be sent to:
+
 - ale@bobadilla.work
 - eliaz@bobadilla.work
 
@@ -221,6 +229,7 @@ npm run db:studio
 ## Features
 
 ### User Experience
+
 - ✅ Instant form validation
 - ✅ Clear error messages
 - ✅ Loading indicators
@@ -230,6 +239,7 @@ npm run db:studio
 - ✅ Mobile-responsive
 
 ### Data Management
+
 - ✅ Persistent storage in SQLite/Turso
 - ✅ Automatic timestamps
 - ✅ Type-safe queries
@@ -237,6 +247,7 @@ npm run db:studio
 - ✅ Easy data access via Drizzle Studio
 
 ### Email Notifications
+
 - ✅ Professional HTML emails
 - ✅ Sent to both ale and eliaz
 - ✅ Includes all form data
@@ -257,6 +268,7 @@ npm run db:studio
 ## Future Enhancements
 
 Consider adding:
+
 - [ ] Rate limiting per IP
 - [ ] Honeypot field for spam protection
 - [ ] CAPTCHA for bot prevention
@@ -270,6 +282,7 @@ Consider adding:
 ### "Failed to submit form"
 
 **Check:**
+
 1. Is the dev server running? (`npm run dev`)
 2. Is the database initialized? (`npm run db:push`)
 3. Are environment variables set? (check `.env` file)
@@ -277,6 +290,7 @@ Consider adding:
 ### Email not sending
 
 **Check:**
+
 1. Is `RESEND_API_KEY` set in `.env`?
 2. Is the domain verified in Resend dashboard?
 3. Check server logs for email errors
@@ -286,6 +300,7 @@ The form will still work - messages are saved to database regardless.
 ### Database errors
 
 **Check:**
+
 1. Does `local.db` file exist?
 2. Run `npm run db:push` to create/update schema
 3. Check file permissions
@@ -321,6 +336,5 @@ drizzle.config.ts                 # Drizzle configuration
 
 ---
 
-**Setup Date:** December 3, 2025
-**Status:** ✅ Complete and functional
+**Setup Date:** December 3, 2025 **Status:** ✅ Complete and functional
 **Emails:** ale@bobadilla.work, eliaz@bobadilla.work

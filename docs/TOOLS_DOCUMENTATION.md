@@ -3,6 +3,7 @@
 ## ✅ What's Been Built
 
 ### 📁 Structure Created
+
 ```
 src/
 ├── app/
@@ -19,9 +20,11 @@ src/
 ## 🛠️ Current Tools
 
 ### 1. Reddit Post Date Extractor
+
 **URL**: `/tools/reddit-post-date`
 
 **Features:**
+
 - ✅ Extracts exact creation date from Reddit posts
 - ✅ Shows both UTC and local timezone
 - ✅ Copy to clipboard functionality
@@ -30,6 +33,7 @@ src/
 - ✅ No data storage - all processing in browser
 
 **How it works:**
+
 1. User pastes Reddit URL
 2. Tool extracts post ID from URL
 3. Fetches post data from Reddit's JSON API
@@ -37,6 +41,7 @@ src/
 5. Provides copy buttons for easy sharing
 
 **Use Cases:**
+
 - Research & journalism
 - Fact-checking & verification
 - Academic citations
@@ -47,14 +52,17 @@ src/
 ## 📍 Navigation Updates
 
 ### Navbar - Resources Dropdown
+
 - ✅ "Tools" link now points to `/tools` (was `#tools`)
 - ✅ Updated in both desktop and mobile menus
 - ✅ Maintains dropdown functionality
 
 ### Tools Listing Page
+
 **Location**: `/tools`
 
 **Features:**
+
 - Tool categories
 - Search-friendly layout
 - Tool descriptions with tags
@@ -66,12 +74,14 @@ src/
 ## 🎨 Design Features
 
 ### Consistent Styling
+
 - Matches main site design (dark theme, cyan/blue gradients)
 - Glassmorphism effects
 - Smooth animations on hover
 - Responsive layout
 
 ### User Experience
+
 - Breadcrumb navigation
 - Clear instructions
 - Loading states
@@ -85,28 +95,35 @@ src/
 ### Reddit Post Date Extractor
 
 **Utilities Location:**
+
 ```
 src/app/tools/reddit-post-date/utils.ts
 ```
-Each tool contains its own utils file within the tool directory for better modularity.
+
+Each tool contains its own utils file within the tool directory for better
+modularity.
 
 **API Endpoint:**
+
 ```
 https://www.reddit.com/r/subreddit/comments/post_id/.json
 ```
 
 **URL Pattern Validation:**
+
 ```regex
 /reddit\.com\/r\/[^/]+\/comments\/([a-z0-9]+)/i
 ```
 
 **Data Extraction:**
+
 ```typescript
 const postData = data[0]?.data?.children[0]?.data;
 const timestamp = postData.created_utc * 1000;
 ```
 
 **Date Formatting:**
+
 - UTC: `date.toUTCString()`
 - Local: `date.toLocaleString()` with full options
 
@@ -115,12 +132,13 @@ const timestamp = postData.created_utc * 1000;
 ## 🚀 Adding New Tools
 
 ### Template Structure:
+
 ```tsx
 // src/app/tools/[tool-name]/page.tsx
-'use client';
+"use client";
 
-import Navbar from '@/components/ui/Navbar';
-import Link from 'next/link';
+import Navbar from "@/components/ui/Navbar";
+import Link from "next/link";
 
 export default function ToolName() {
   return (
@@ -146,8 +164,8 @@ export default function ToolName() {
    touch src/app/tools/[tool-slug]/page.tsx
    ```
 
-3. **Update tools listing:**
-   Edit `src/app/tools/page.tsx` and add to `tools` array:
+3. **Update tools listing:** Edit `src/app/tools/page.tsx` and add to `tools`
+   array:
    ```typescript
    {
      id: 'tool-id',
@@ -162,7 +180,7 @@ export default function ToolName() {
 
 4. **Import icon:**
    ```typescript
-   import { IconName } from 'lucide-react';
+   import { IconName } from "lucide-react";
    ```
 
 ---
@@ -170,14 +188,17 @@ export default function ToolName() {
 ## 📊 SEO & Metadata
 
 ### Tools Listing Page
+
 ```typescript
 export const metadata: Metadata = {
-  title: 'Free Tools - Boba Tech',
-  description: 'Free online tools for developers, researchers, and content creators.',
+  title: "Free Tools - Boba Tech",
+  description:
+    "Free online tools for developers, researchers, and content creators.",
 };
 ```
 
 ### Individual Tool Pages
+
 Add metadata to each tool page for better SEO.
 
 ---
@@ -185,12 +206,14 @@ Add metadata to each tool page for better SEO.
 ## 🔒 Privacy & Security
 
 ### Data Handling
+
 - ✅ No server-side storage
 - ✅ No tracking or analytics on tool usage
 - ✅ All processing happens client-side
 - ✅ No user data collected
 
 ### API Calls
+
 - Only to public APIs (Reddit JSON)
 - No authentication required
 - No proxying through our servers
@@ -200,11 +223,13 @@ Add metadata to each tool page for better SEO.
 ## 📱 Responsive Design
 
 ### Breakpoints
+
 - Mobile: < 768px
 - Tablet: 768px - 1024px
 - Desktop: > 1024px
 
 ### Mobile Optimizations
+
 - Touch-friendly buttons
 - Readable font sizes
 - Simplified layouts
@@ -215,11 +240,13 @@ Add metadata to each tool page for better SEO.
 ## 🎯 Future Tools Ideas
 
 ### Social Media Tools
+
 - Twitter/X Thread Unroller
 - Instagram Post Downloader
 - TikTok Video Info Extractor
 
 ### Developer Tools
+
 - JSON Formatter & Validator
 - Base64 Encoder/Decoder
 - UUID Generator
@@ -227,12 +254,14 @@ Add metadata to each tool page for better SEO.
 - RegEx Tester
 
 ### Text Tools
+
 - Word Counter
 - Character Counter
 - Case Converter
 - Markdown Preview
 
 ### Image Tools
+
 - Image Compressor
 - Format Converter
 - EXIF Data Viewer
@@ -242,12 +271,14 @@ Add metadata to each tool page for better SEO.
 ## 🧪 Testing
 
 ### Test Reddit URLs:
+
 ```
 https://www.reddit.com/r/help/comments/115a9aq/how_to_see_exact_date_when_you_made_a_post/
 https://www.reddit.com/r/programming/comments/abc123/test_post/
 ```
 
 ### Test Cases:
+
 - ✅ Valid Reddit URL
 - ✅ Invalid URL format
 - ✅ Non-existent post
@@ -260,6 +291,7 @@ https://www.reddit.com/r/programming/comments/abc123/test_post/
 ## 📈 Analytics (Future)
 
 Consider adding:
+
 - Tool usage counts (privacy-friendly)
 - Popular tools tracking
 - Feature requests
@@ -275,5 +307,4 @@ Consider adding:
 
 ---
 
-**Status**: ✅ Complete and functional
-**Last Updated**: December 3, 2025
+**Status**: ✅ Complete and functional **Last Updated**: December 3, 2025

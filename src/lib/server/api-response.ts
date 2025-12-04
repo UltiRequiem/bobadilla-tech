@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { type ZodError, type ZodTreeError } from "zod";
+import z, { type ZodError } from "zod";
 
 interface SuccessResponse<T = unknown> {
 	success: true;
@@ -10,7 +10,7 @@ interface SuccessResponse<T = unknown> {
 interface ErrorResponse {
 	success: false;
 	message: string;
-	errors?: ZodTreeError;
+	errors?: ReturnType<typeof z.treeifyError>;
 }
 
 /**
@@ -65,7 +65,7 @@ export function validationErrorResponse(
 		{
 			success: false,
 			message,
-			errors: error.format() as ZodTreeError,
+			errors: z.treeifyError(error),
 		},
 		{ status: 400 },
 	);
