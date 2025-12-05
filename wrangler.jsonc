@@ -10,10 +10,10 @@
 	"compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
 	"assets": {
 		"binding": "ASSETS",
-		"directory": ".open-next/assets"
+		"directory": ".open-next/assets",
 	},
 	"observability": {
-		"enabled": true
+		"enabled": true,
 	},
 	"workers_dev": true,
 	"preview_urls": true,
@@ -21,13 +21,13 @@
 		{
 			"pattern": "bobadilla.work",
 			"zone_name": "bobadilla.work",
-			"custom_domain": true
+			"custom_domain": true,
 		},
 		{
 			"pattern": "bobadilla.tech",
 			"zone_name": "bobadilla.tech",
-			"custom_domain": true
-		}
+			"custom_domain": true,
+		},
 	],
 	/**
 	 * Smart Placement
@@ -48,9 +48,9 @@
 		{
 			"binding": "DB",
 			"database_name": "bobadilla-work",
-			"database_id": "78c9ec9c-98be-4426-870a-20ce74f40c10"
-		}
-	]
+			"database_id": "78c9ec9c-98be-4426-870a-20ce74f40c10",
+		},
+	],
 	/**
 	 * Environment Variables
 	 * https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables

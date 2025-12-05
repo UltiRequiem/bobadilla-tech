@@ -16,7 +16,7 @@ interface ContactMessageData {
  */
 export async function insertContactMessage(
 	db: DbInstance,
-	data: ContactMessageData,
+	data: ContactMessageData
 ) {
 	const [insertedMessage] = await db
 		.insert(contactMessages)

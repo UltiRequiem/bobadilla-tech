@@ -1,12 +1,12 @@
 export interface RedditPostDate {
-  utcDate: string;
-  localDate: string;
-  timestamp: number;
-  postId: string;
+	utcDate: string;
+	localDate: string;
+	timestamp: number;
+	postId: string;
 }
 
 interface ApiErrorResponse {
-  error?: string;
+	error?: string;
 }
 
 /**
@@ -16,16 +16,16 @@ interface ApiErrorResponse {
  * @throws Error if URL is invalid
  */
 export function extractRedditPostId(url: string): string {
-  const redditUrlPattern = /reddit\.com\/r\/[^/]+\/comments\/([a-z0-9]+)/i;
-  const match = url.match(redditUrlPattern);
+	const redditUrlPattern = /reddit\.com\/r\/[^/]+\/comments\/([a-z0-9]+)/i;
+	const match = url.match(redditUrlPattern);
 
-  if (!match) {
-    throw new Error(
-      'Invalid Reddit URL. Please use format: https://www.reddit.com/r/subreddit/comments/post_id/'
-    );
-  }
+	if (!match) {
+		throw new Error(
+			"Invalid Reddit URL. Please use format: https://www.reddit.com/r/subreddit/comments/post_id/"
+		);
+	}
 
-  return match[1];
+	return match[1];
 }
 
 /**
@@ -34,32 +34,38 @@ export function extractRedditPostId(url: string): string {
  * @returns The post creation timestamp and ID
  * @throws Error if URL is invalid or fetch fails
  */
-export async function fetchRedditPostDate(url: string): Promise<RedditPostDate> {
-  // Validate URL format first
-  extractRedditPostId(url);
+export async function fetchRedditPostDate(
+	url: string
+): Promise<RedditPostDate> {
+	// Validate URL format first
+	extractRedditPostId(url);
 
-  try {
-    // Call our API route which handles Reddit API requests server-side
-    const response = await fetch(`/api/reddit-post-date?url=${encodeURIComponent(url)}`);
+	try {
+		// Call our API route which handles Reddit API requests server-side
+		const response = await fetch(
+			`/api/reddit-post-date?url=${encodeURIComponent(url)}`
+		);
 
-    if (!response.ok) {
-      const errorData = await response.json() as ApiErrorResponse;
-      throw new Error(errorData.error || 'Failed to fetch post data from Reddit.');
-    }
+		if (!response.ok) {
+			const errorData = (await response.json()) as ApiErrorResponse;
+			throw new Error(
+				errorData.error || "Failed to fetch post data from Reddit."
+			);
+		}
 
-    const data = await response.json() as RedditPostDate;
+		const data = (await response.json()) as RedditPostDate;
 
-    if (!data.timestamp || !data.postId) {
-      throw new Error('Invalid response from API');
-    }
+		if (!data.timestamp || !data.postId) {
+			throw new Error("Invalid response from API");
+		}
 
-    return formatRedditPostDate(data.timestamp, data.postId);
-  } catch (error) {
-    if (error instanceof Error) {
-      throw error;
-    }
-    throw new Error('An unexpected error occurred while fetching post data');
-  }
+		return formatRedditPostDate(data.timestamp, data.postId);
+	} catch (error) {
+		if (error instanceof Error) {
+			throw error;
+		}
+		throw new Error("An unexpected error occurred while fetching post data");
+	}
 }
 
 /**
@@ -68,25 +74,28 @@ export async function fetchRedditPostDate(url: string): Promise<RedditPostDate> 
  * @param postId - The Reddit post ID
  * @returns Formatted date information
  */
-export function formatRedditPostDate(timestamp: number, postId: string): RedditPostDate {
-  const date = new Date(timestamp);
+export function formatRedditPostDate(
+	timestamp: number,
+	postId: string
+): RedditPostDate {
+	const date = new Date(timestamp);
 
-  const utcDate = date.toUTCString();
-  const localDate = date.toLocaleString(undefined, {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    timeZoneName: 'short',
-  });
+	const utcDate = date.toUTCString();
+	const localDate = date.toLocaleString(undefined, {
+		weekday: "long",
+		year: "numeric",
+		month: "long",
+		day: "numeric",
+		hour: "2-digit",
+		minute: "2-digit",
+		second: "2-digit",
+		timeZoneName: "short",
+	});
 
-  return {
-    utcDate,
-    localDate,
-    timestamp,
-    postId,
-  };
+	return {
+		utcDate,
+		localDate,
+		timestamp,
+		postId,
+	};
 }

@@ -13,14 +13,14 @@ notifications to ale@bobadilla.work and eliaz@bobadilla.work.
 
 ```typescript
 export const contactMessages = sqliteTable("contact_messages", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  name: text("name").notNull(),
-  email: text("email").notNull(),
-  company: text("company"),
-  message: text("message").notNull(),
-  createdAt: integer("created_at", { mode: "timestamp" })
-    .notNull()
-    .default(sql`(unixepoch())`),
+	id: integer("id").primaryKey({ autoIncrement: true }),
+	name: text("name").notNull(),
+	email: text("email").notNull(),
+	company: text("company"),
+	message: text("message").notNull(),
+	createdAt: integer("created_at", { mode: "timestamp" })
+		.notNull()
+		.default(sql`(unixepoch())`),
 });
 ```
 
@@ -145,9 +145,9 @@ RESEND_API_KEY=re_xxx
 
 ```json
 {
-  "success": true,
-  "message": "Thank you for contacting us! We'll get back to you soon.",
-  "id": 1
+	"success": true,
+	"message": "Thank you for contacting us! We'll get back to you soon.",
+	"id": 1
 }
 ```
 
@@ -155,14 +155,14 @@ RESEND_API_KEY=re_xxx
 
 ```json
 {
-  "success": false,
-  "message": "Invalid form data",
-  "errors": [
-    {
-      "field": "email",
-      "message": "Invalid email address"
-    }
-  ]
+	"success": false,
+	"message": "Invalid form data",
+	"errors": [
+		{
+			"field": "email",
+			"message": "Invalid email address"
+		}
+	]
 }
 ```
 
@@ -170,8 +170,8 @@ RESEND_API_KEY=re_xxx
 
 ```json
 {
-  "success": false,
-  "message": "Failed to submit contact form. Please try again later."
+	"success": false,
+	"message": "Failed to submit contact form. Please try again later."
 }
 ```
 

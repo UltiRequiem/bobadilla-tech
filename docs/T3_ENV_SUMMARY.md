@@ -148,22 +148,25 @@ Environment variables are validated:
 ## Next Steps
 
 1. **Install database client** (if needed):
+
    ```bash
    npm install @libsql/client
    ```
 
 2. **Create database utility** in `src/lib/db.ts`:
+
    ```typescript
    import { createClient } from "@libsql/client";
    import { env } from "~/env";
 
    export const db = createClient({
-     url: env.TURSO_DATABASE_URL,
-     authToken: env.TURSO_AUTH_TOKEN,
+   	url: env.TURSO_DATABASE_URL,
+   	authToken: env.TURSO_AUTH_TOKEN,
    });
    ```
 
 3. **Use in API routes or server components**:
+
    ```typescript
    import { db } from "~/lib/db";
 

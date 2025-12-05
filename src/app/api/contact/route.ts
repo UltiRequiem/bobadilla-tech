@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
 		return successResponse(
 			{ id: insertedMessage.id },
 			"Thank you for contacting us! We'll get back to you soon.",
-			201,
+			201
 		);
 	} catch (error) {
 		console.error("Contact form error:", error);
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
 		}
 
 		return errorResponse(
-			"Failed to submit contact form. Please try again later.",
+			"Failed to submit contact form. Please try again later."
 		);
 	}
 }

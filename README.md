@@ -64,28 +64,33 @@ See [claude.md](claude.md) for complete architecture documentation.
 ### Setup
 
 1. **Clone the repository**
+
    ```bash
    git clone <repository-url>
    cd bobadilla-work
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Set up environment variables**
+
    ```bash
    cp .env.example .env
    # Edit .env with your configuration
    ```
 
 4. **Initialize local D1 database**
+
    ```bash
    npx wrangler d1 execute bobadilla-work --local --file=./drizzle/migrations/0000_*.sql
    ```
 
 5. **Start development server**
+
    ```bash
    npm run dev
    ```
@@ -198,11 +203,13 @@ npm run deploy
 ### First-Time Deployment
 
 1. **Apply database schema to production:**
+
    ```bash
    npx wrangler d1 execute bobadilla-work --remote --file=./drizzle/migrations/0000_*.sql
    ```
 
 2. **Set up secrets (if needed):**
+
    ```bash
    echo "your-api-key" | npx wrangler secret put EMAIL_WORKER_API_KEY
    ```

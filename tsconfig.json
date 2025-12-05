@@ -22,12 +22,7 @@
 			"@/*": ["./src/*"],
 			"~/*": ["./src/*"]
 		},
-		"types": [
-			"./cloudflare-env.d.ts",
-			"./cloudflare-env.d.ts",
-			"node",
-			"node"
-		]
+		"types": ["./cloudflare-env.d.ts", "./cloudflare-env.d.ts", "node", "node"]
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
 	"exclude": ["node_modules"]

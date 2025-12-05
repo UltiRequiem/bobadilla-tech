@@ -15,6 +15,7 @@ This document outlines the architectural patterns and conventions for this Next.
 ## 🏗️ Overview
 
 This project follows a modular, self-contained architecture where:
+
 - API endpoints are organized with separated concerns (validation, business logic, database, external services)
 - Tools are self-contained features with dedicated client and server logic
 - Shared utilities are centralized in `src/lib/` for reusability
@@ -38,9 +39,11 @@ src/app/api/[endpoint-name]/
 ### File Responsibilities
 
 #### `route.ts` - Request Handler
+
 The orchestrator that coordinates all operations. Should be thin and delegate to other modules.
 
 **Responsibilities:**
+
 - Parse request data
 - Call validation
 - Orchestrate business logic
@@ -48,134 +51,144 @@ The orchestrator that coordinates all operations. Should be thin and delegate to
 - Return standardized responses
 
 **Example:**
+
 ```typescript
 import type { NextRequest } from "next/server";
 import { z } from "zod";
 import {
-  errorResponse,
-  successResponse,
-  validationErrorResponse,
+	errorResponse,
+	successResponse,
+	validationErrorResponse,
 } from "~/lib/server/api-response";
 import { insertRecord } from "./db";
 import { logAction } from "./logger";
 import { mySchema } from "./validation";
 
 export async function POST(request: NextRequest) {
-  try {
-    const body = await request.json();
-    const validatedData = mySchema.parse(body);
+	try {
+		const body = await request.json();
+		const validatedData = mySchema.parse(body);
 
-    const result = await insertRecord(validatedData);
-    logAction(result);
+		const result = await insertRecord(validatedData);
+		logAction(result);
 
-    return successResponse(result, "Success message", 201);
-  } catch (error) {
-    console.error("Error:", error);
+		return successResponse(result, "Success message", 201);
+	} catch (error) {
+		console.error("Error:", error);
 
-    if (error instanceof z.ZodError) {
-      return validationErrorResponse(error);
-    }
+		if (error instanceof z.ZodError) {
+			return validationErrorResponse(error);
+		}
 
-    return errorResponse("Operation failed");
-  }
+		return errorResponse("Operation failed");
+	}
 }
 ```
 
 #### `validation.ts` - Input Validation
+
 Zod schemas for request validation and data extraction.
 
 **Responsibilities:**
+
 - Define input schemas
 - Validation rules
 - Data transformation/extraction utilities
 
 **Example:**
+
 ```typescript
 import { z } from "zod";
 
 export const mySchema = z.object({
-  name: z.string().min(1).max(100),
-  email: z.string().email(),
-  optional: z.string().optional(),
+	name: z.string().min(1).max(100),
+	email: z.string().email(),
+	optional: z.string().optional(),
 });
 
 export type MySchemaType = z.infer<typeof mySchema>;
 ```
 
 #### `db.ts` - Database Operations
+
 All database queries for this endpoint.
 
 **Responsibilities:**
+
 - Database CRUD operations
 - Query composition
 - Data mapping
 
 **Example:**
+
 ```typescript
 import { db } from "~/db/client";
 import { myTable } from "~/db/schema";
 
 interface RecordData {
-  name: string;
-  email: string;
+	name: string;
+	email: string;
 }
 
 export async function insertRecord(data: RecordData) {
-  const [inserted] = await db
-    .insert(myTable)
-    .values(data)
-    .returning();
+	const [inserted] = await db.insert(myTable).values(data).returning();
 
-  return inserted;
+	return inserted;
 }
 ```
 
 #### `[service].ts` - External Services
+
 Integration with third-party APIs or services.
 
 **Responsibilities:**
+
 - External API calls
 - Response parsing
 - Error handling for external services
 
 **Example:**
+
 ```typescript
 export async function callExternalService(data: SomeData) {
-  const response = await fetch("https://api.example.com/endpoint", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
+	const response = await fetch("https://api.example.com/endpoint", {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify(data),
+	});
 
-  if (!response.ok) {
-    throw new Error("External service failed");
-  }
+	if (!response.ok) {
+		throw new Error("External service failed");
+	}
 
-  return response.json();
+	return response.json();
 }
 ```
 
 #### `logger.ts` - Logging
+
 Structured logging for this endpoint.
 
 **Responsibilities:**
+
 - Console logging
 - Log formatting
 - Observability
 
 **Example:**
+
 ```typescript
 interface LogData {
-  id: number;
-  name: string;
-  timestamp: Date;
+	id: number;
+	name: string;
+	timestamp: Date;
 }
 
 export function logAction(data: LogData): void {
-  console.log("📝 Action performed:");
-  console.log(`   ID: ${data.id}`);
-  console.log(`   Name: ${data.name}`);
-  console.log(`   Time: ${data.timestamp.toISOString()}`);
+	console.log("📝 Action performed:");
+	console.log(`   ID: ${data.id}`);
+	console.log(`   Name: ${data.name}`);
+	console.log(`   Time: ${data.timestamp.toISOString()}`);
 }
 ```
 
@@ -184,6 +197,7 @@ export function logAction(data: LogData): void {
 All API endpoints **MUST** use standardized response utilities from `~/lib/server/api-response.ts`:
 
 #### Success Response
+
 ```typescript
 successResponse(
   { id: 123, name: "Result" },  // data (optional)
@@ -200,6 +214,7 @@ successResponse(
 ```
 
 #### Error Response
+
 ```typescript
 errorResponse(
   "Something went wrong",  // message
@@ -214,6 +229,7 @@ errorResponse(
 ```
 
 #### Validation Error Response
+
 ```typescript
 validationErrorResponse(
   zodError,               // Zod error object
@@ -250,6 +266,7 @@ src/app/api/[tool-name]/
 ### When to Keep Tools Self-Contained
 
 Tools should remain self-contained (not sharing utilities) when:
+
 - The logic is specific to that tool's domain
 - The utility would not be reused by other features
 - The tool is a standalone feature with no cross-dependencies
@@ -257,6 +274,7 @@ Tools should remain self-contained (not sharing utilities) when:
 ### When to Extract to Shared Libraries
 
 Extract to `src/lib/` when:
+
 - Multiple tools use the same utility
 - The utility is generic and reusable (date formatting, URL parsing, etc.)
 - The code would benefit from centralized testing
@@ -266,19 +284,21 @@ Extract to `src/lib/` when:
 ### `src/lib/server/` - Server-Side Utilities
 
 #### `api-response.ts`
+
 Standardized API response helpers. **All endpoints must use these.**
 
 ```typescript
 import {
-  successResponse,
-  errorResponse,
-  validationErrorResponse
+	successResponse,
+	errorResponse,
+	validationErrorResponse,
 } from "~/lib/server/api-response";
 ```
 
 ### Future Shared Utilities
 
 As the project grows, add shared utilities here:
+
 - `src/lib/server/auth.ts` - Authentication utilities
 - `src/lib/server/middleware.ts` - Request middleware
 - `src/lib/server/cache.ts` - Caching utilities
@@ -338,6 +358,7 @@ bobadilla-work/
 ### File Organization
 
 1. **Imports** - Group by source:
+
    ```typescript
    // External packages
    import type { NextRequest } from "next/server";
@@ -361,22 +382,22 @@ All endpoints must handle errors consistently:
 
 ```typescript
 try {
-  // Main logic
+	// Main logic
 } catch (error) {
-  console.error("Context-specific error:", error);
+	console.error("Context-specific error:", error);
 
-  // Handle Zod validation errors
-  if (error instanceof z.ZodError) {
-    return validationErrorResponse(error);
-  }
+	// Handle Zod validation errors
+	if (error instanceof z.ZodError) {
+		return validationErrorResponse(error);
+	}
 
-  // Handle known Error instances
-  if (error instanceof Error) {
-    return errorResponse(error.message, 400);
-  }
+	// Handle known Error instances
+	if (error instanceof Error) {
+		return errorResponse(error.message, 400);
+	}
 
-  // Fallback for unknown errors
-  return errorResponse("Unexpected error occurred");
+	// Fallback for unknown errors
+	return errorResponse("Unexpected error occurred");
 }
 ```
 
@@ -418,6 +439,7 @@ src/app/api/contact/
 ```
 
 **Key Features:**
+
 - ✅ Separated concerns
 - ✅ Reusable modules
 - ✅ Type-safe validation
@@ -436,6 +458,7 @@ src/app/api/reddit-post-date/
 ```
 
 **Key Features:**
+
 - ✅ No database needed
 - ✅ URL validation with Zod
 - ✅ External API client module
@@ -445,43 +468,50 @@ src/app/api/reddit-post-date/
 ## 🚀 Creating a New Endpoint
 
 1. **Create directory structure:**
+
    ```bash
    mkdir -p src/app/api/my-endpoint
    ```
 
 2. **Create validation schema** (`validation.ts`):
+
    ```typescript
    import { z } from "zod";
 
    export const mySchema = z.object({
-     field: z.string().min(1),
+   	field: z.string().min(1),
    });
    ```
 
 3. **Create route handler** (`route.ts`):
+
    ```typescript
    import type { NextRequest } from "next/server";
    import { z } from "zod";
-   import { successResponse, errorResponse, validationErrorResponse } from "~/lib/server/api-response";
+   import {
+   	successResponse,
+   	errorResponse,
+   	validationErrorResponse,
+   } from "~/lib/server/api-response";
    import { mySchema } from "./validation";
 
    export async function POST(request: NextRequest) {
-     try {
-       const body = await request.json();
-       const validatedData = mySchema.parse(body);
+   	try {
+   		const body = await request.json();
+   		const validatedData = mySchema.parse(body);
 
-       // Your business logic here
+   		// Your business logic here
 
-       return successResponse({ result: "data" });
-     } catch (error) {
-       console.error("Error:", error);
+   		return successResponse({ result: "data" });
+   	} catch (error) {
+   		console.error("Error:", error);
 
-       if (error instanceof z.ZodError) {
-         return validationErrorResponse(error);
-       }
+   		if (error instanceof z.ZodError) {
+   			return validationErrorResponse(error);
+   		}
 
-       return errorResponse("Operation failed");
-     }
+   		return errorResponse("Operation failed");
+   	}
    }
    ```
 

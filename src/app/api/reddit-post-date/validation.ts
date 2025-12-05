@@ -9,7 +9,7 @@ export const redditUrlSchema = z
 	.min(1, "URL is required")
 	.refine(
 		(url) => /reddit\.com\/r\/([^/]+)\/comments\/([a-z0-9]+)/i.test(url),
-		{ message: "Invalid Reddit URL format" },
+		{ message: "Invalid Reddit URL format" }
 	);
 
 /**

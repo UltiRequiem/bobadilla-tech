@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useRef, useMemo } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import * as THREE from 'three';
+import { useRef, useMemo } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import * as THREE from "three";
 
 const vertexShader = `
   varying vec2 vUv;
@@ -78,45 +78,47 @@ const fragmentShader = `
 `;
 
 function ShaderMesh() {
-  const meshRef = useRef<THREE.Mesh>(null);
-  const materialRef = useRef<THREE.ShaderMaterial>(null);
+	const meshRef = useRef<THREE.Mesh>(null);
+	const materialRef = useRef<THREE.ShaderMaterial>(null);
 
-  const uniforms = useMemo(
-    () => ({
-      uTime: { value: 0 },
-      uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
-    }),
-    []
-  );
+	const uniforms = useMemo(
+		() => ({
+			uTime: { value: 0 },
+			uResolution: {
+				value: new THREE.Vector2(window.innerWidth, window.innerHeight),
+			},
+		}),
+		[]
+	);
 
-  useFrame((state) => {
-    if (materialRef.current) {
-      materialRef.current.uniforms.uTime.value = state.clock.elapsedTime;
-    }
-  });
+	useFrame((state) => {
+		if (materialRef.current) {
+			materialRef.current.uniforms.uTime.value = state.clock.elapsedTime;
+		}
+	});
 
-  return (
-    <mesh ref={meshRef} scale={[1, 1, 1]}>
-      <planeGeometry args={[10, 10, 32, 32]} />
-      <shaderMaterial
-        ref={materialRef}
-        vertexShader={vertexShader}
-        fragmentShader={fragmentShader}
-        uniforms={uniforms}
-      />
-    </mesh>
-  );
+	return (
+		<mesh ref={meshRef} scale={[1, 1, 1]}>
+			<planeGeometry args={[10, 10, 32, 32]} />
+			<shaderMaterial
+				ref={materialRef}
+				vertexShader={vertexShader}
+				fragmentShader={fragmentShader}
+				uniforms={uniforms}
+			/>
+		</mesh>
+	);
 }
 
 export default function ShaderBackground() {
-  return (
-    <div className="fixed inset-0 -z-10">
-      <Canvas
-        camera={{ position: [0, 0, 5], fov: 45 }}
-        style={{ width: '100%', height: '100%' }}
-      >
-        <ShaderMesh />
-      </Canvas>
-    </div>
-  );
+	return (
+		<div className="fixed inset-0 -z-10">
+			<Canvas
+				camera={{ position: [0, 0, 5], fov: 45 }}
+				style={{ width: "100%", height: "100%" }}
+			>
+				<ShaderMesh />
+			</Canvas>
+		</div>
+	);
 }

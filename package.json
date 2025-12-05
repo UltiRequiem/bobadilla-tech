@@ -8,6 +8,8 @@
 		"build": "next build && opennextjs-cloudflare build --skipBuild",
 		"start": "next start",
 		"lint": "next lint",
+		"format": "prettier --write .",
+		"format:check": "prettier --check .",
 		"deploy": "opennextjs-cloudflare",
 		"cf:build": "opennextjs-cloudflare build",
 		"cf:deploy": "opennextjs-cloudflare deploy",

@@ -1,10 +1,7 @@
 import type { NextRequest } from "next/server";
 import { z } from "zod";
 import { errorResponse, successResponse } from "~/lib/server/api-response";
-import {
-	fetchRedditPostTimestamp,
-	validateTimestamp,
-} from "./reddit-client";
+import { fetchRedditPostTimestamp, validateTimestamp } from "./reddit-client";
 import { extractRedditInfo, redditUrlSchema } from "./validation";
 
 export async function GET(request: NextRequest) {
@@ -42,7 +39,7 @@ export async function GET(request: NextRequest) {
 
 		return errorResponse(
 			"An unexpected error occurred while fetching post data",
-			500,
+			500
 		);
 	}
 }
