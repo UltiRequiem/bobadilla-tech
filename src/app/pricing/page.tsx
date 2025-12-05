@@ -1,6 +1,6 @@
 'use client';
 
-import {useCallback, useEffect, useState} from 'react';
+import { useCallback, useState} from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {z, ZodError} from 'zod';
 import {
@@ -43,9 +43,11 @@ export default function PricingCalculator() {
             setIsValidEmail(true);
             setSaveError('');
         } catch (error) {
+            setIsValidEmail(false);
             if (error instanceof ZodError) {
-                setIsValidEmail(false);
                 setSaveError(error.issues[0].message);
+            } else if (error instanceof Error) {
+                setSaveError(error.message);
             }
         }
     }, [email, emailSchema]);
