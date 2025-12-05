@@ -38,8 +38,7 @@ export default function PricingCalculator() {
 
     const validateEmail = useCallback(() => {
         try {
-            const parsedEmail = emailSchema.parse(email);
-            setEmail(parsedEmail);
+            emailSchema.parse(email);
             setIsValidEmail(true);
             setSaveError('');
         } catch (error) {
