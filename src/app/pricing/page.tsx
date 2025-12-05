@@ -24,6 +24,8 @@ import { PRICING_STEPS } from './constants';
 import type { Selections } from './types';
 import { calculateStepTotal, calculateTotal, getSelectedOptionsByStep, formatSelectionsSummary } from './utils';
 
+const emailSchema = z.email('Invalid email. Please enter valid email address');
+
 export default function PricingCalculator() {
     const [currentStep, setCurrentStep] = useState(0);
     const [selections, setSelections] = useState<Selections>({});
@@ -33,8 +35,6 @@ export default function PricingCalculator() {
     const [isSaving, setIsSaving] = useState(false);
     const [isValidEmail, setIsValidEmail] = useState(false);
     const [saveError, setSaveError] = useState('');
-
-    const emailSchema = z.email('Invalid email. Please enter valid email address');
 
     const validateEmail = useCallback(() => {
         try {
@@ -50,7 +50,7 @@ export default function PricingCalculator() {
                 setSaveError(error.message);
             }
         }
-    }, [email, emailSchema]);
+    }, [email]);
 
     const currentStepData = PRICING_STEPS[currentStep];
     const isMultiSelect = currentStepData?.multiSelect || false;
