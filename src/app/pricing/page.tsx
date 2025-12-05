@@ -149,10 +149,10 @@ export default function PricingCalculator() {
             </div>
           ))}
 
-          <div className="pt-4 border-t border-cyan-500/30">
+          <div className="pt-4 border-t border-cyan-500/30" aria-live="polite" aria-atomic="true">
             <div className="flex items-center justify-between">
               <span className="text-lg font-bold text-white">Total</span>
-              <span className="text-2xl font-bold text-cyan-400">
+              <span className="text-2xl font-bold text-cyan-400" aria-label={`Total estimate: $${grandTotal.toLocaleString()}`}>
                 ${grandTotal.toLocaleString()}
               </span>
             </div>
@@ -185,9 +185,9 @@ export default function PricingCalculator() {
             </div>
 
             {/* Price Display */}
-            <div className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/30 rounded-2xl p-8 text-center">
+            <div className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/30 rounded-2xl p-8 text-center" aria-live="polite" aria-atomic="true">
               <p className="text-gray-300 mb-2">Total Investment</p>
-              <div className="text-6xl font-bold text-white mb-2">
+              <div className="text-6xl font-bold text-white mb-2" aria-label={`Total investment: $${total.toLocaleString()}`}>
                 ${total.toLocaleString()}
               </div>
               <p className="text-sm text-gray-400">Competitive LATAM pricing • Same timezone • Cultural alignment</p>
@@ -200,30 +200,36 @@ export default function PricingCalculator() {
                 <p className="text-gray-300 mb-6 text-center">
                   Enter your email to save this estimate and book a free consultation with our team
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4">
+                <form className="flex flex-col sm:flex-row gap-4" onSubmit={(e) => { e.preventDefault(); saveEstimate(); }}>
                   <div className="flex-1">
                     <div className="relative">
-                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" aria-hidden="true" />
+                      <label htmlFor="email-input" className="sr-only">Email address</label>
                       <input
+                        id="email-input"
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="your@email.com"
+                        aria-required="true"
+                        aria-invalid={saveError ? 'true' : 'false'}
+                        aria-describedby={saveError ? 'email-error' : undefined}
                         className="w-full pl-12 pr-4 py-4 bg-white/5 border border-white/10 rounded-full text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition-colors"
                       />
                     </div>
                     {saveError && (
-                      <p className="text-red-400 text-sm mt-2 ml-4">{saveError}</p>
+                      <p id="email-error" className="text-red-400 text-sm mt-2 ml-4" role="alert">{saveError}</p>
                     )}
                   </div>
                   <button
-                    onClick={saveEstimate}
+                    type="submit"
                     disabled={isSaving}
+                    aria-busy={isSaving}
                     className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isSaving ? 'Saving...' : 'Book Free Consultation'}
                   </button>
-                </div>
+                </form>
               </div>
             </div>
 
@@ -323,7 +329,9 @@ export default function PricingCalculator() {
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
               <button
+                type="button"
                 onClick={resetCalculator}
+                aria-label="Start over and create a new estimate"
                 className="px-8 py-4 bg-white/5 border border-white/10 text-white rounded-full font-semibold hover:bg-white/10 transition-all duration-300"
               >
                 Start Over
@@ -365,12 +373,12 @@ export default function PricingCalculator() {
           {/* Main Content */}
           <div className="lg:col-span-2">
             {/* Progress Bar */}
-            <div className="mb-8">
+            <div className="mb-8" role="navigation" aria-label="Progress through pricing calculator">
               <div className="flex justify-between items-center mb-2">
-                <span className="text-sm text-gray-400">Step {currentStep + 1} of {PRICING_STEPS.length}</span>
-                <span className="text-sm text-cyan-400">{Math.round(((currentStep + 1) / PRICING_STEPS.length) * 100)}%</span>
+                <span className="text-sm text-gray-400" aria-current="step">Step {currentStep + 1} of {PRICING_STEPS.length}</span>
+                <span className="text-sm text-cyan-400" aria-label={`${Math.round(((currentStep + 1) / PRICING_STEPS.length) * 100)} percent complete`}>{Math.round(((currentStep + 1) / PRICING_STEPS.length) * 100)}%</span>
               </div>
-              <div className="h-2 bg-white/5 rounded-full overflow-hidden">
+              <div className="h-2 bg-white/5 rounded-full overflow-hidden" role="progressbar" aria-valuenow={currentStep + 1} aria-valuemin={1} aria-valuemax={PRICING_STEPS.length} aria-label="Calculator progress">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: `${((currentStep + 1) / PRICING_STEPS.length) * 100}%` }}
@@ -386,13 +394,15 @@ export default function PricingCalculator() {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 className="mb-6 p-4 bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-xl"
+                aria-live="polite"
+                aria-atomic="true"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <DollarSign className="w-5 h-5 text-green-400" />
                     <span className="text-gray-300">Current Step Total:</span>
                   </div>
-                  <span className="text-2xl font-bold text-green-400">
+                  <span className="text-2xl font-bold text-green-400" aria-label={`Current step adds $${currentTotal.toLocaleString()} to total`}>
                     +${currentTotal.toLocaleString()}
                   </span>
                 </div>
@@ -409,10 +419,10 @@ export default function PricingCalculator() {
                 transition={{ duration: 0.3 }}
                 className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 backdrop-blur-sm border border-white/10 rounded-2xl p-8 mb-8"
               >
-                <h2 className="text-3xl font-bold text-white mb-2">{currentStepData.title}</h2>
+                <h2 id={`step-${currentStep}-title`} className="text-3xl font-bold text-white mb-2">{currentStepData.title}</h2>
                 <p className="text-gray-400 mb-8">{currentStepData.description}</p>
 
-                <div className="grid grid-cols-1 gap-4">
+                <div className="grid grid-cols-1 gap-4" role="group" aria-labelledby={`step-${currentStep}-title`}>
                   {currentStepData.options.map((option) => (
                     <div key={option.id} className="relative group">
                       <button
@@ -420,6 +430,8 @@ export default function PricingCalculator() {
                         onClick={() => handleSelection(option.id)}
                         onMouseEnter={() => setHoveredOption(option.id)}
                         onMouseLeave={() => setHoveredOption(null)}
+                        aria-label={`${option.name}. ${option.basePrice > 0 ? `Adds $${option.basePrice.toLocaleString()} to total. ` : ''}${isSelected(option.id) ? 'Currently selected' : 'Not selected'}. ${option.description}`}
+                        aria-pressed={isSelected(option.id)}
                         className={`w-full relative p-6 text-left rounded-xl border-2 transition-all duration-300 ${
                           isSelected(option.id)
                             ? 'border-cyan-500 bg-cyan-500/10'
@@ -466,18 +478,19 @@ export default function PricingCalculator() {
             </AnimatePresence>
 
             {/* Navigation Buttons */}
-            <div className="flex justify-between items-center">
+            <nav className="flex justify-between items-center" aria-label="Calculator navigation">
               <button
                 type="button"
                 onClick={prevStep}
                 disabled={currentStep === 0}
+                aria-label={`Go to previous step${currentStep > 0 ? `: ${PRICING_STEPS[currentStep - 1]?.title}` : ''}`}
                 className={`flex items-center gap-2 px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
                   currentStep === 0
                     ? 'bg-white/5 text-gray-600 cursor-not-allowed'
                     : 'bg-white/10 text-white hover:bg-white/20'
                 }`}
               >
-                <ArrowLeft className="w-5 h-5" />
+                <ArrowLeft className="w-5 h-5" aria-hidden="true" />
                 Previous
               </button>
 
@@ -485,6 +498,7 @@ export default function PricingCalculator() {
                 type="button"
                 onClick={nextStep}
                 disabled={!canProceed()}
+                aria-label={currentStep === PRICING_STEPS.length - 1 ? 'View estimate summary' : `Proceed to next step${currentStep < PRICING_STEPS.length - 1 ? `: ${PRICING_STEPS[currentStep + 1]?.title}` : ''}`}
                 className={`flex items-center gap-2 px-8 py-3 rounded-full font-semibold transition-all duration-300 ${
                   canProceed()
                     ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:shadow-lg hover:shadow-cyan-500/50 transform hover:scale-105'
@@ -492,9 +506,9 @@ export default function PricingCalculator() {
                 }`}
               >
                 {currentStep === PRICING_STEPS.length - 1 ? 'See Estimate' : 'Next'}
-                <ArrowRight className="w-5 h-5" />
+                <ArrowRight className="w-5 h-5" aria-hidden="true" />
               </button>
-            </div>
+            </nav>
           </div>
 
           {/* Sidebar Summary */}
