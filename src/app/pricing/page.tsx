@@ -2,7 +2,7 @@
 
 import { useCallback, useState} from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {z, ZodError} from 'zod';
+import { ZodError } from 'zod';
 import {
     Check,
     ArrowRight,
@@ -20,11 +20,9 @@ import {
 import Navbar from '@/components/ui/Navbar';
 import ShaderBackground from '@/components/shaders/ShaderBackground';
 import { CAL_LINKS } from '~/lib/constants';
-import { PRICING_STEPS } from './constants';
+import {EMAIL_SCHEMA, PRICING_STEPS} from './constants';
 import type { Selections } from './types';
 import { calculateStepTotal, calculateTotal, getSelectedOptionsByStep, formatSelectionsSummary } from './utils';
-
-const emailSchema = z.email('Invalid email. Please enter valid email address');
 
 export default function PricingCalculator() {
     const [currentStep, setCurrentStep] = useState(0);
@@ -38,7 +36,7 @@ export default function PricingCalculator() {
 
     const validateEmail = useCallback(() => {
         try {
-            emailSchema.parse(email);
+            EMAIL_SCHEMA.parse(email);
             setIsValidEmail(true);
             setSaveError('');
         } catch (error) {

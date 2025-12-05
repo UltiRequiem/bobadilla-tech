@@ -1,4 +1,5 @@
 import type { Step } from './types';
+import {z} from "zod";
 
 export const PRICING_STEPS: Step[] = [
   {
@@ -171,6 +172,8 @@ export const PRICING_STEPS: Step[] = [
     ],
   },
 ];
+
+export const EMAIL_SCHEMA = z.email('Invalid email. Please enter valid email address');
 
 export const TIMELINE_STEP_ID = 5;
 export const RUSH_MULTIPLIER = 1.3;
