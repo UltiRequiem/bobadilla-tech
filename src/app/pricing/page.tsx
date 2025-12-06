@@ -1,28 +1,29 @@
 'use client';
 
-import { useCallback, useState} from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ZodError } from 'zod';
+import {useCallback, useState} from 'react';
+import {AnimatePresence, motion} from 'framer-motion';
+import {ZodError} from 'zod';
 import {
-    Check,
-    ArrowRight,
     ArrowLeft,
+    ArrowRight,
     Calculator,
-    Zap,
-    Globe,
-    Users,
-    Shield,
-    Info,
-    DollarSign,
+    Check,
     CircleAlert,
+    DollarSign,
+    Globe,
+    Info,
     Mail,
+    Shield,
+    Users,
+    Zap,
 } from 'lucide-react';
 import Navbar from '@/components/ui/Navbar';
 import ShaderBackground from '@/components/shaders/ShaderBackground';
-import { CAL_LINKS } from '~/lib/constants';
-import {EMAIL_SCHEMA, PRICING_STEPS} from './constants';
-import type { Selections } from './types';
-import { calculateStepTotal, calculateTotal, getSelectedOptionsByStep, formatSelectionsSummary } from './utils';
+import {CAL_LINKS} from '~/lib/constants';
+import {ANIMATION_CONFIG, PRICING_STEPS} from './constants';
+import type {Selections} from './types';
+import {calculateStepTotal, calculateTotal, formatSelectionsSummary, getSelectedOptionsByStep} from './utils';
+import {validEmail} from "@/app/pricing/validation";
 
 export default function PricingCalculator() {
     const [currentStep, setCurrentStep] = useState(0);
@@ -36,7 +37,7 @@ export default function PricingCalculator() {
 
     const validateEmail = useCallback(() => {
         try {
-            EMAIL_SCHEMA.parse(email);
+            validEmail(email);
             setIsValidEmail(true);
             setSaveError('');
         } catch (error) {
@@ -61,9 +62,9 @@ export default function PricingCalculator() {
                 ? currentSelections.filter(id => id !== optionId)
                 : [...currentSelections, optionId];
 
-            setSelections({ ...selections, [stepId]: newSelections });
+            setSelections({...selections, [stepId]: newSelections});
         } else {
-            setSelections({ ...selections, [stepId]: [optionId] });
+            setSelections({...selections, [stepId]: [optionId]});
         }
     };
 
@@ -109,7 +110,7 @@ export default function PricingCalculator() {
         try {
             const response = await fetch('/api/pricing-estimate', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
                     email,
                     totalPrice: calculateTotal(selections),
@@ -141,9 +142,10 @@ export default function PricingCalculator() {
         if (Object.keys(selections).length === 0) return null;
 
         return (
-            <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 backdrop-blur-sm border border-white/10 rounded-2xl p-6 sticky top-24">
+            <div
+                className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 backdrop-blur-sm border border-white/10 rounded-2xl p-6 sticky top-24">
                 <div className="flex items-center gap-2 mb-4">
-                    <DollarSign className="w-5 h-5 text-cyan-400" />
+                    <DollarSign className="w-5 h-5 text-cyan-400"/>
                     <h3 className="text-lg font-bold text-white">Current Estimate</h3>
                 </div>
 
@@ -159,7 +161,7 @@ export default function PricingCalculator() {
                             <div className="space-y-1">
                                 {section.options.map((option, idx) => (
                                     <div key={idx} className="flex items-center gap-2 text-xs text-gray-400">
-                                        <Check className="w-3 h-3 text-green-500 flex-shrink-0" />
+                                        <Check className="w-3 h-3 text-green-500 flex-shrink-0"/>
                                         <span className="truncate">{option?.name}</span>
                                     </div>
                                 ))}
@@ -186,42 +188,47 @@ export default function PricingCalculator() {
 
         return (
             <div className="min-h-screen bg-slate-950">
-                <Navbar />
-                <ShaderBackground />
+                <Navbar/>
+                <ShaderBackground/>
 
                 <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
+                        initial={{opacity: ANIMATION_CONFIG.initialOpacity, y: ANIMATION_CONFIG.initialY.medium}}
+                        animate={{opacity: ANIMATION_CONFIG.finalOpacity, y: 0}}
                         className="space-y-8"
                     >
                         {/* Header */}
                         <div className="text-center">
-                            <Check className="w-16 h-16 text-green-500 mx-auto mb-4" />
+                            <Check className="w-16 h-16 text-green-500 mx-auto mb-4"/>
                             <h1 className="text-4xl font-bold text-white mb-2">Your Project Estimate</h1>
                             <p className="text-gray-400">Detailed breakdown of your custom solution</p>
                         </div>
 
                         {/* Price Display */}
-                        <div className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/30 rounded-2xl p-8 text-center">
+                        <div
+                            className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/30 rounded-2xl p-8 text-center">
                             <p className="text-gray-300 mb-2">Total Investment</p>
                             <div className="text-6xl font-bold text-white mb-2">
                                 ${total.toLocaleString()}
                             </div>
-                            <p className="text-sm text-gray-400">Competitive LATAM pricing • Same timezone • Cultural alignment</p>
+                            <p className="text-sm text-gray-400">Competitive LATAM pricing • Same timezone • Cultural
+                                alignment</p>
                         </div>
 
                         {/* Email Capture */}
-                        <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-2xl p-8">
+                        <div
+                            className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-2xl p-8">
                             <div className="max-w-2xl min-h-50 mx-auto">
-                                <h3 className="text-2xl font-bold text-white mb-4 text-center">Get Your Detailed Quote</h3>
+                                <h3 className="text-2xl font-bold text-white mb-4 text-center">Get Your Detailed
+                                    Quote</h3>
                                 <p className="text-gray-300 mb-6 text-center">
                                     Enter your email to save this estimate and book a free consultation with our team
                                 </p>
                                 <div className="flex flex-col sm:flex-row gap-4">
                                     <div className="flex-1">
                                         <div className="relative">
-                                            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                            <Mail
+                                                className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"/>
                                             <input
                                                 type="email"
                                                 value={email}
@@ -236,7 +243,8 @@ export default function PricingCalculator() {
                                         {saveError && (
                                             <div className="flex items-center pt-3 pl-3.5">
                                                 <CircleAlert color="#ff6467"/>
-                                                <span className="text-sm mt-1 ml-3 mb-1"><p className="underline border-red-400 text-red-400 ">{saveError}</p></span>
+                                                <span className="text-sm mt-1 ml-3 mb-1"><p
+                                                    className="underline border-red-400 text-red-400 ">{saveError}</p></span>
                                             </div>
                                         )}
                                     </div>
@@ -252,11 +260,13 @@ export default function PricingCalculator() {
                         </div>
 
                         {/* Breakdown by Section */}
-                        <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 backdrop-blur-sm border border-white/10 rounded-2xl p-8">
+                        <div
+                            className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 backdrop-blur-sm border border-white/10 rounded-2xl p-8">
                             <h2 className="text-2xl font-bold text-white mb-6">Cost Breakdown</h2>
                             <div className="space-y-6">
                                 {breakdown.map((section) => (
-                                    <div key={section.stepTitle} className="border-b border-white/10 pb-6 last:border-0">
+                                    <div key={section.stepTitle}
+                                         className="border-b border-white/10 pb-6 last:border-0">
                                         <div className="flex items-center justify-between mb-4">
                                             <h3 className="text-xl font-bold text-cyan-400">{section.stepTitle}</h3>
                                             {section.total > 0 && (
@@ -267,16 +277,19 @@ export default function PricingCalculator() {
                                         </div>
                                         <div className="space-y-3">
                                             {section.options.map((option, idx) => (
-                                                <div key={`${section.stepTitle}-${idx}`} className="flex items-start justify-between bg-white/5 rounded-lg p-4">
+                                                <div key={`${section.stepTitle}-${idx}`}
+                                                     className="flex items-start justify-between bg-white/5 rounded-lg p-4">
                                                     <div className="flex-1">
                                                         <div className="flex items-center gap-2 mb-1">
-                                                            <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
-                                                            <span className="text-white font-medium">{option?.name}</span>
+                                                            <Check className="w-4 h-4 text-green-500 flex-shrink-0"/>
+                                                            <span
+                                                                className="text-white font-medium">{option?.name}</span>
                                                         </div>
                                                         <p className="text-sm text-gray-400 ml-6">{option?.description}</p>
                                                     </div>
                                                     {option && option.price > 0 && (
-                                                        <span className="text-cyan-400 font-semibold ml-4 flex-shrink-0">
+                                                        <span
+                                                            className="text-cyan-400 font-semibold ml-4 flex-shrink-0">
                               +${option.price.toLocaleString()}
                             </span>
                                                     )}
@@ -291,7 +304,7 @@ export default function PricingCalculator() {
                             {timelineSelection && timelineSelection.id !== 'standard' && (
                                 <div className="mt-6 p-4 bg-purple-500/10 border border-purple-500/30 rounded-lg">
                                     <div className="flex items-center gap-2 text-purple-300">
-                                        <Info className="w-5 h-5" />
+                                        <Info className="w-5 h-5"/>
                                         <p className="font-semibold">
                                             {timelineSelection.id === 'rush' ? '+30% Rush Fee Applied' : '-15% Flexible Timeline Discount Applied'}
                                         </p>
@@ -302,43 +315,48 @@ export default function PricingCalculator() {
                         </div>
 
                         {/* Why Choose Us */}
-                        <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-2xl p-8">
+                        <div
+                            className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-2xl p-8">
                             <h3 className="text-2xl font-bold text-white mb-6">Why Work With Us?</h3>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="flex items-start gap-4">
                                     <div className="p-3 bg-yellow-500/20 rounded-lg">
-                                        <Zap className="w-6 h-6 text-yellow-500" />
+                                        <Zap className="w-6 h-6 text-yellow-500"/>
                                     </div>
                                     <div>
                                         <h4 className="text-white font-semibold mb-1">Highly Responsive</h4>
-                                        <p className="text-sm text-gray-400">Quick turnaround times and constant communication throughout development</p>
+                                        <p className="text-sm text-gray-400">Quick turnaround times and constant
+                                            communication throughout development</p>
                                     </div>
                                 </div>
                                 <div className="flex items-start gap-4">
                                     <div className="p-3 bg-cyan-500/20 rounded-lg">
-                                        <Globe className="w-6 h-6 text-cyan-500" />
+                                        <Globe className="w-6 h-6 text-cyan-500"/>
                                     </div>
                                     <div>
                                         <h4 className="text-white font-semibold mb-1">Same Timezone</h4>
-                                        <p className="text-sm text-gray-400">LATAM-based team for seamless real-time collaboration</p>
+                                        <p className="text-sm text-gray-400">LATAM-based team for seamless real-time
+                                            collaboration</p>
                                     </div>
                                 </div>
                                 <div className="flex items-start gap-4">
                                     <div className="p-3 bg-green-500/20 rounded-lg">
-                                        <Users className="w-6 h-6 text-green-500" />
+                                        <Users className="w-6 h-6 text-green-500"/>
                                     </div>
                                     <div>
                                         <h4 className="text-white font-semibold mb-1">Cultural Alignment</h4>
-                                        <p className="text-sm text-gray-400">Strong work ethic and cultural compatibility with US/EU teams</p>
+                                        <p className="text-sm text-gray-400">Strong work ethic and cultural
+                                            compatibility with US/EU teams</p>
                                     </div>
                                 </div>
                                 <div className="flex items-start gap-4">
                                     <div className="p-3 bg-blue-500/20 rounded-lg">
-                                        <Shield className="w-6 h-6 text-blue-500" />
+                                        <Shield className="w-6 h-6 text-blue-500"/>
                                     </div>
                                     <div>
                                         <h4 className="text-white font-semibold mb-1">Offshore Pricing</h4>
-                                        <p className="text-sm text-gray-400">Premium quality at competitive LATAM rates - save 40-60%</p>
+                                        <p className="text-sm text-gray-400">Premium quality at competitive LATAM rates
+                                            - save 40-60%</p>
                                     </div>
                                 </div>
                             </div>
@@ -366,19 +384,23 @@ export default function PricingCalculator() {
 
     return (
         <div className="min-h-screen bg-slate-950">
-            <Navbar />
-            <ShaderBackground />
+            <Navbar/>
+            <ShaderBackground/>
 
             <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
                 {/* Header */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{
+                        opacity: ANIMATION_CONFIG.initialOpacity,
+                        y: ANIMATION_CONFIG.initialY.medium
+                    }}
+                    animate={{opacity: ANIMATION_CONFIG.finalOpacity, y: 0}}
                     className="text-center mb-12"
                 >
-                    <Calculator className="w-16 h-16 text-cyan-400 mx-auto mb-4" />
+                    <Calculator className="w-16 h-16 text-cyan-400 mx-auto mb-4"/>
                     <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">
-                        Project Pricing <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Calculator</span>
+                        Project Pricing <span
+                        className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Calculator</span>
                     </h1>
                     <p className="text-xl text-gray-400 max-w-2xl mx-auto">
                         Get an instant estimate for your project in just a few steps
@@ -391,14 +413,18 @@ export default function PricingCalculator() {
                         {/* Progress Bar */}
                         <div className="mb-8">
                             <div className="flex justify-between items-center mb-2">
-                                <span className="text-sm text-gray-400">Step {currentStep + 1} of {PRICING_STEPS.length}</span>
-                                <span className="text-sm text-cyan-400">{Math.round(((currentStep + 1) / PRICING_STEPS.length) * 100)}%</span>
+                                <span
+                                    className="text-sm text-gray-400">Step {currentStep + 1} of {PRICING_STEPS.length}</span>
+                                <span
+                                    className="text-sm text-cyan-400">{Math.round(((currentStep + 1) / PRICING_STEPS.length) * 100)}%</span>
                             </div>
                             <div className="h-2 bg-white/5 rounded-full overflow-hidden">
                                 <motion.div
-                                    initial={{ width: 0 }}
-                                    animate={{ width: `${((currentStep + 1) / PRICING_STEPS.length) * 100}%` }}
-                                    transition={{ duration: 0.3 }}
+                                    initial={{width: ANIMATION_CONFIG.initialWidth}}
+                                    animate={{
+                                        width: `${((currentStep + 1) / PRICING_STEPS.length) * 100}%`
+                                    }}
+                                    transition={{duration: ANIMATION_CONFIG.duration.fast}}
                                     className="h-full bg-gradient-to-r from-cyan-500 to-blue-600"
                                 />
                             </div>
@@ -407,13 +433,19 @@ export default function PricingCalculator() {
                         {/* Current Step Cost */}
                         {currentTotal > 0 && (
                             <motion.div
-                                initial={{ opacity: 0, scale: 0.95 }}
-                                animate={{ opacity: 1, scale: 1 }}
+                                initial={{
+                                    opacity: ANIMATION_CONFIG.initialOpacity,
+                                    scale: ANIMATION_CONFIG.initialScale
+                                }}
+                                animate={{
+                                    opacity: ANIMATION_CONFIG.finalOpacity,
+                                    scale: ANIMATION_CONFIG.finalScale
+                                }}
                                 className="mb-6 p-4 bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-xl"
                             >
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-2">
-                                        <DollarSign className="w-5 h-5 text-green-400" />
+                                        <DollarSign className="w-5 h-5 text-green-400"/>
                                         <span className="text-gray-300">Current Step Total:</span>
                                     </div>
                                     <span className="text-2xl font-bold text-green-400">
@@ -427,10 +459,19 @@ export default function PricingCalculator() {
                         <AnimatePresence mode="wait">
                             <motion.div
                                 key={currentStep}
-                                initial={{ opacity: 0, x: 20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                exit={{ opacity: 0, x: -20 }}
-                                transition={{ duration: 0.3 }}
+                                initial={{
+                                    opacity: ANIMATION_CONFIG.initialOpacity,
+                                    x: ANIMATION_CONFIG.initialY.medium
+                                }}
+                                animate={{
+                                    opacity: ANIMATION_CONFIG.finalOpacity,
+                                    x: 0
+                                }}
+                                exit={{
+                                    opacity: ANIMATION_CONFIG.initialOpacity,
+                                    x: -ANIMATION_CONFIG.initialY.medium
+                                }}
+                                transition={{duration: ANIMATION_CONFIG.duration.fast}}
                                 className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 backdrop-blur-sm border border-white/10 rounded-2xl p-8 mb-8"
                             >
                                 <h2 className="text-3xl font-bold text-white mb-2">{currentStepData.title}</h2>
@@ -454,14 +495,14 @@ export default function PricingCalculator() {
                                                     <div className="flex-1">
                                                         <div className="flex items-center gap-2 mb-1">
                                                             <h3 className="text-lg font-semibold text-white">{option.name}</h3>
-                                                            <Info className="w-4 h-4 text-gray-500" />
+                                                            <Info className="w-4 h-4 text-gray-500"/>
                                                         </div>
                                                         {option.basePrice > 0 && (
                                                             <p className="text-cyan-400 font-semibold mt-2">+${option.basePrice.toLocaleString()}</p>
                                                         )}
                                                     </div>
                                                     {isSelected(option.id) && (
-                                                        <Check className="w-6 h-6 text-cyan-400 flex-shrink-0" />
+                                                        <Check className="w-6 h-6 text-cyan-400 flex-shrink-0"/>
                                                     )}
                                                 </div>
                                             </button>
@@ -469,9 +510,18 @@ export default function PricingCalculator() {
                                             {/* Tooltip on Hover */}
                                             {hoveredOption === option.id && (
                                                 <motion.div
-                                                    initial={{ opacity: 0, y: 10 }}
-                                                    animate={{ opacity: 1, y: 0 }}
-                                                    exit={{ opacity: 0, y: 10 }}
+                                                    initial={{
+                                                        opacity: ANIMATION_CONFIG.initialOpacity,
+                                                        y: ANIMATION_CONFIG.initialY.small
+                                                    }}
+                                                    animate={{
+                                                        opacity: ANIMATION_CONFIG.finalOpacity,
+                                                        y: 0
+                                                    }}
+                                                    exit={{
+                                                        opacity: ANIMATION_CONFIG.initialOpacity,
+                                                        y: ANIMATION_CONFIG.initialY.small
+                                                    }}
                                                     className="absolute z-10 left-0 right-0 -bottom-2 translate-y-full p-4 bg-slate-800 border border-cyan-500/30 rounded-xl shadow-xl"
                                                 >
                                                     <p className="text-sm text-gray-300">{option.description}</p>
@@ -501,7 +551,7 @@ export default function PricingCalculator() {
                                         : 'bg-white/10 text-white hover:bg-white/20'
                                 }`}
                             >
-                                <ArrowLeft className="w-5 h-5" />
+                                <ArrowLeft className="w-5 h-5"/>
                                 Previous
                             </button>
 
@@ -516,14 +566,14 @@ export default function PricingCalculator() {
                                 }`}
                             >
                                 {currentStep === PRICING_STEPS.length - 1 ? 'See Estimate' : 'Next'}
-                                <ArrowRight className="w-5 h-5" />
+                                <ArrowRight className="w-5 h-5"/>
                             </button>
                         </div>
                     </div>
 
                     {/* Sidebar Summary */}
                     <div className="lg:col-span-1">
-                        <SummarySidebar />
+                        <SummarySidebar/>
                     </div>
                 </div>
             </div>
