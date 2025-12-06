@@ -19,7 +19,7 @@ interface RedditApiResponse {
  */
 export async function fetchRedditPostTimestamp(
 	subreddit: string,
-	postId: string,
+	postId: string
 ): Promise<number> {
 	const response = await fetch(
 		`https://www.reddit.com/r/${subreddit}/comments/${postId}/.json`,
@@ -29,12 +29,12 @@ export async function fetchRedditPostTimestamp(
 					"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
 			},
 			cache: "no-store",
-		},
+		}
 	);
 
 	if (!response.ok) {
 		throw new Error(
-			"Failed to fetch post data from Reddit. The post may not exist or may be private.",
+			"Failed to fetch post data from Reddit. The post may not exist or may be private."
 		);
 	}
 

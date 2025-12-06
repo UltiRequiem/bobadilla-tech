@@ -21,6 +21,7 @@ src/app/api/contact/
 ```
 
 **Benefits:**
+
 - Each file has a single responsibility
 - Code is reusable and testable
 - Easy to modify individual components
@@ -41,6 +42,7 @@ src/app/api/reddit-post-date/
 ```
 
 **Benefits:**
+
 - URL validation extracted and reusable
 - Reddit API logic separated
 - Timestamp validation centralized
@@ -56,16 +58,17 @@ Standardized response utilities used by ALL endpoints:
 
 ```typescript
 // Success responses
-successResponse(data, message, status)
+successResponse(data, message, status);
 
 // Error responses
-errorResponse(message, status)
+errorResponse(message, status);
 
 // Validation error responses
-validationErrorResponse(zodError, message)
+validationErrorResponse(zodError, message);
 ```
 
 **All API responses now follow this format:**
+
 ```json
 {
   "success": true/false,
@@ -80,6 +83,7 @@ validationErrorResponse(zodError, message)
 ### 4. **Environment Configuration** - Enhanced ✅
 
 Added new environment variables to `src/env.ts`:
+
 - `EMAIL_WORKER_URL` - External email service endpoint
 - `EMAIL_WORKER_API_KEY` - Authentication for email worker
 
@@ -93,6 +97,7 @@ Added new environment variables to `src/env.ts`:
 **New:** [`claude.md`](claude.md) - Complete architecture guide
 
 **Includes:**
+
 - 📐 Standard endpoint structure
 - 📝 File responsibility definitions
 - 🔍 Code examples for each pattern
@@ -141,23 +146,23 @@ src/app/api/[endpoint]/
 
 ```typescript
 export async function POST(request: NextRequest) {
-  try {
-    const body = await request.json();
-    const validatedData = mySchema.parse(body);
+	try {
+		const body = await request.json();
+		const validatedData = mySchema.parse(body);
 
-    const result = await insertRecord(validatedData);
-    logAction(result);
+		const result = await insertRecord(validatedData);
+		logAction(result);
 
-    return successResponse(result, "Success!", 201);
-  } catch (error) {
-    console.error("Error:", error);
+		return successResponse(result, "Success!", 201);
+	} catch (error) {
+		console.error("Error:", error);
 
-    if (error instanceof z.ZodError) {
-      return validationErrorResponse(error);
-    }
+		if (error instanceof z.ZodError) {
+			return validationErrorResponse(error);
+		}
 
-    return errorResponse("Operation failed");
-  }
+		return errorResponse("Operation failed");
+	}
 }
 ```
 
@@ -168,31 +173,39 @@ export async function POST(request: NextRequest) {
 ## 🎨 Key Principles
 
 ### 1. **Separation of Concerns**
+
 Each file has ONE responsibility:
+
 - `route.ts` = orchestration
 - `validation.ts` = input validation
 - `db.ts` = database operations
 - `[service].ts` = external integrations
 
 ### 2. **Standardized Responses**
+
 All endpoints use the same response format via `api-response.ts`:
+
 - Consistent structure
 - Type-safe
 - Easy to consume on frontend
 
 ### 3. **Type Safety Throughout**
+
 - TypeScript strict mode
 - Zod for runtime validation
 - Inferred types from schemas
 - No `any` types (except where necessary with ESLint disable)
 
 ### 4. **Self-Contained Endpoints**
+
 Each endpoint directory contains everything it needs:
+
 - No scattered logic across the codebase
 - Easy to find and modify
 - Clear boundaries
 
 ### 5. **Reusable, Not Redundant**
+
 - Shared utilities in `src/lib/server/`
 - Endpoint-specific logic stays in endpoint
 - Balance between DRY and self-contained
@@ -204,6 +217,7 @@ Each endpoint directory contains everything it needs:
 ### Contact API Route Handler
 
 **Before:**
+
 ```typescript
 // route.ts - 98 lines
 // - Inline validation
@@ -214,6 +228,7 @@ Each endpoint directory contains everything it needs:
 ```
 
 **After:**
+
 ```typescript
 // route.ts - 62 lines (36% reduction)
 // + validation.ts - 12 lines
@@ -232,6 +247,7 @@ Each endpoint directory contains everything it needs:
 ### Reddit API Route Handler
 
 **Before:**
+
 ```typescript
 // route.ts - 93 lines
 // - Inline URL parsing
@@ -241,6 +257,7 @@ Each endpoint directory contains everything it needs:
 ```
 
 **After:**
+
 ```typescript
 // route.ts - 47 lines (49% reduction)
 // + validation.ts - 36 lines
@@ -279,6 +296,7 @@ Each endpoint directory contains everything it needs:
 ### Adding Shared Utilities
 
 Place in `src/lib/server/` when:
+
 - Multiple endpoints need it
 - Logic is generic and reusable
 - Would benefit from centralized testing
@@ -288,6 +306,7 @@ Place in `src/lib/server/` when:
 ## 📈 Benefits Achieved
 
 ### For Development
+
 - ✅ Faster to add new endpoints
 - ✅ Easier to find and fix bugs
 - ✅ Code is more testable
@@ -295,17 +314,20 @@ Place in `src/lib/server/` when:
 - ✅ Consistent patterns across codebase
 
 ### For Maintenance
+
 - ✅ Changes are isolated
 - ✅ Logic is reusable
 - ✅ Clear file responsibilities
 - ✅ Self-documenting structure
 
 ### For Testing
+
 - ✅ Each module can be unit tested
 - ✅ Mocking is straightforward
 - ✅ Integration tests are cleaner
 
 ### For Scalability
+
 - ✅ Easy to add new endpoints
 - ✅ Pattern is repeatable
 - ✅ Shared utilities reduce duplication
@@ -314,25 +336,27 @@ Place in `src/lib/server/` when:
 
 ## 📚 Key Files Reference
 
-| File | Purpose | Used By |
-|------|---------|---------|
-| `claude.md` | Architecture documentation | All developers |
-| `src/lib/server/api-response.ts` | Standardized API responses | All endpoints |
-| `src/env.ts` | Environment configuration | All server code |
-| `src/app/api/contact/*` | Contact form endpoint | Contact feature |
-| `src/app/api/reddit-post-date/*` | Reddit tool endpoint | Reddit tool |
+| File                             | Purpose                    | Used By         |
+| -------------------------------- | -------------------------- | --------------- |
+| `claude.md`                      | Architecture documentation | All developers  |
+| `src/lib/server/api-response.ts` | Standardized API responses | All endpoints   |
+| `src/env.ts`                     | Environment configuration  | All server code |
+| `src/app/api/contact/*`          | Contact form endpoint      | Contact feature |
+| `src/app/api/reddit-post-date/*` | Reddit tool endpoint       | Reddit tool     |
 
 ---
 
 ## ✅ Validation
 
 ### Build Status
+
 - ✅ Next.js build succeeds
 - ✅ TypeScript compilation passes
 - ✅ No ESLint errors
 - ✅ Dev server running on `http://localhost:3001`
 
 ### Code Quality
+
 - ✅ Type-safe throughout
 - ✅ Consistent patterns
 - ✅ Separated concerns
@@ -353,6 +377,7 @@ Place in `src/lib/server/` when:
 ## 🔄 Next Steps (Optional)
 
 ### Potential Improvements
+
 1. Add unit tests for each module
 2. Create integration tests for endpoints
 3. Add request rate limiting
@@ -361,6 +386,7 @@ Place in `src/lib/server/` when:
 6. Create middleware for common operations (auth, logging, etc.)
 
 ### When to Refactor More
+
 - When you add 3+ endpoints: Consider more shared utilities
 - When patterns emerge: Extract to `src/lib/server/`
 - When testing becomes difficult: Review separation of concerns

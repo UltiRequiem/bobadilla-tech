@@ -14,7 +14,11 @@ import {
 	TrendingUp,
 } from "lucide-react";
 import { CAL_LINKS } from "~/lib/constants";
-import { generateMetadata as generateSEOMetadata, KEYWORD_SETS, BASE_URL } from "~/lib/seo";
+import {
+	generateMetadata as generateSEOMetadata,
+	KEYWORD_SETS,
+	BASE_URL,
+} from "~/lib/seo";
 
 interface ServicePageProps {
 	params: Promise<{
@@ -30,7 +34,7 @@ export async function generateStaticParams() {
 	const industryServiceSlugs = industryServices.flatMap((industry) =>
 		industry.services.map((service) => ({
 			slug: service.slug,
-		})),
+		}))
 	);
 
 	return [...allServiceSlugs, ...industryServiceSlugs];
@@ -61,8 +65,8 @@ export async function generateMetadata({
 			service.title.toLowerCase(),
 			`${service.title.toLowerCase()} development`,
 			`${service.title.toLowerCase()} services`,
-			'professional development',
-			'expert developers',
+			"professional development",
+			"expert developers",
 		],
 		canonical: `${BASE_URL}/services/${slug}`,
 		ogImage: `${BASE_URL}/og-service-${slug}.png`,
@@ -92,7 +96,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
 
 	// Find related services from the same industry
 	const relatedIndustry = industryServices.find((industry) =>
-		industry.services.some((s) => s.slug === slug),
+		industry.services.some((s) => s.slug === slug)
 	);
 
 	const relatedServices = relatedIndustry

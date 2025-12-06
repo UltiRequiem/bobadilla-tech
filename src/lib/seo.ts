@@ -52,7 +52,9 @@ export function generateMetadata(config: SEOConfig): Metadata {
 		article,
 	} = config;
 
-	const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
+	const fullTitle = title.includes(SITE_NAME)
+		? title
+		: `${title} | ${SITE_NAME}`;
 	const canonicalUrl = canonical || BASE_URL;
 
 	const metadata: Metadata = {
@@ -70,7 +72,7 @@ export function generateMetadata(config: SEOConfig): Metadata {
 						index: false,
 						follow: false,
 					},
-			  }
+				}
 			: {
 					index: true,
 					follow: true,
@@ -80,7 +82,7 @@ export function generateMetadata(config: SEOConfig): Metadata {
 						"max-image-preview": "large",
 						"max-snippet": -1,
 					},
-			  },
+				},
 		alternates: {
 			canonical: canonicalUrl,
 		},
@@ -99,7 +101,7 @@ export function generateMetadata(config: SEOConfig): Metadata {
 							height: 630,
 							alt: title,
 						},
-				  ]
+					]
 				: undefined,
 		},
 		twitter: {
@@ -242,7 +244,7 @@ export function generateServiceSchema(service: {
 								"@type": "PriceSpecification",
 								priceCurrency: "USD",
 								price: service.priceRange,
-						  }
+							}
 						: undefined,
 				},
 			],
@@ -253,7 +255,9 @@ export function generateServiceSchema(service: {
 /**
  * Generate JSON-LD structured data for breadcrumbs
  */
-export function generateBreadcrumbSchema(items: Array<{ name: string; url: string }>) {
+export function generateBreadcrumbSchema(
+	items: Array<{ name: string; url: string }>
+) {
 	return {
 		"@context": "https://schema.org",
 		"@type": "BreadcrumbList",
@@ -269,7 +273,9 @@ export function generateBreadcrumbSchema(items: Array<{ name: string; url: strin
 /**
  * Generate JSON-LD structured data for FAQ
  */
-export function generateFAQSchema(faqs: Array<{ question: string; answer: string }>) {
+export function generateFAQSchema(
+	faqs: Array<{ question: string; answer: string }>
+) {
 	return {
 		"@context": "https://schema.org",
 		"@type": "FAQPage",

@@ -1,16 +1,30 @@
 "use client";
 
 import { useState } from "react";
-import { AlertCircle, Calendar, CheckCircle, Github, Linkedin, Loader2, Mail } from "lucide-react";
+import {
+	AlertCircle,
+	Calendar,
+	CheckCircle,
+	Github,
+	Linkedin,
+	Loader2,
+	Mail,
+} from "lucide-react";
 import { motion } from "framer-motion";
 import { z } from "zod";
 import { CAL_LINKS } from "~/lib/constants";
 
 // Validation schema (matches backend)
 const contactSchema = z.object({
-	name: z.string().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
+	name: z
+		.string()
+		.min(1, "Name is required")
+		.max(100, "Name must be less than 100 characters"),
 	email: z.string().email("Invalid email address"),
-	company: z.string().max(100, "Company name must be less than 100 characters").optional(),
+	company: z
+		.string()
+		.max(100, "Company name must be less than 100 characters")
+		.optional(),
 	message: z
 		.string()
 		.min(10, "Message must be at least 10 characters")
@@ -31,19 +45,27 @@ export default function Contact() {
 		company: "",
 		message: "",
 	});
-	const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+	const [status, setStatus] = useState<
+		"idle" | "loading" | "success" | "error"
+	>("idle");
 	const [errorMessage, setErrorMessage] = useState("");
 	const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
-	const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({});
+	const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>(
+		{}
+	);
 
 	const validateField = (name: string, value: string) => {
 		try {
-			const fieldSchema = contactSchema.shape[name as keyof typeof contactSchema.shape];
+			const fieldSchema =
+				contactSchema.shape[name as keyof typeof contactSchema.shape];
 			fieldSchema.parse(value);
 			setFieldErrors((prev) => ({ ...prev, [name]: undefined }));
 		} catch (error) {
 			if (error instanceof z.ZodError) {
-				setFieldErrors((prev) => ({ ...prev, [name]: error.issues[0]?.message }));
+				setFieldErrors((prev) => ({
+					...prev,
+					[name]: error.issues[0]?.message,
+				}));
 			}
 		}
 	};
@@ -78,7 +100,7 @@ export default function Contact() {
 				body: JSON.stringify(formData),
 			});
 
-			const data = await response.json() as { message?: string };
+			const data = (await response.json()) as { message?: string };
 
 			if (!response.ok) {
 				throw new Error(data.message || "Failed to submit form");
@@ -94,12 +116,16 @@ export default function Contact() {
 			setTimeout(() => setStatus("idle"), 5000);
 		} catch (error) {
 			setStatus("error");
-			setErrorMessage(error instanceof Error ? error.message : "Something went wrong");
+			setErrorMessage(
+				error instanceof Error ? error.message : "Something went wrong"
+			);
 			setTimeout(() => setStatus("idle"), 5000);
 		}
 	};
 
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+	const handleChange = (
+		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+	) => {
 		const { name, value } = e.target;
 		setFormData((prev) => ({
 			...prev,
@@ -112,7 +138,9 @@ export default function Contact() {
 		}
 	};
 
-	const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+	const handleBlur = (
+		e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>
+	) => {
 		const { name, value } = e.target;
 		setTouchedFields((prev) => ({ ...prev, [name]: true }));
 		validateField(name, value);
@@ -178,7 +206,9 @@ export default function Contact() {
 										placeholder="Your name"
 									/>
 									{fieldErrors.name && (
-										<p className="mt-1 text-sm text-red-400">{fieldErrors.name}</p>
+										<p className="mt-1 text-sm text-red-400">
+											{fieldErrors.name}
+										</p>
 									)}
 								</div>
 
@@ -205,7 +235,9 @@ export default function Contact() {
 										placeholder="your@email.com"
 									/>
 									{fieldErrors.email && (
-										<p className="mt-1 text-sm text-red-400">{fieldErrors.email}</p>
+										<p className="mt-1 text-sm text-red-400">
+											{fieldErrors.email}
+										</p>
 									)}
 								</div>
 
@@ -232,7 +264,9 @@ export default function Contact() {
 										placeholder="Your company"
 									/>
 									{fieldErrors.company && (
-										<p className="mt-1 text-sm text-red-400">{fieldErrors.company}</p>
+										<p className="mt-1 text-sm text-red-400">
+											{fieldErrors.company}
+										</p>
 									)}
 								</div>
 
@@ -259,7 +293,9 @@ export default function Contact() {
 										placeholder="Tell us about your project..."
 									/>
 									{fieldErrors.message && (
-										<p className="mt-1 text-sm text-red-400">{fieldErrors.message}</p>
+										<p className="mt-1 text-sm text-red-400">
+											{fieldErrors.message}
+										</p>
 									)}
 								</div>
 

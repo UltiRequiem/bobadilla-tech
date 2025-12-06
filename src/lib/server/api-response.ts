@@ -27,7 +27,7 @@ interface ErrorResponse {
 export function successResponse<T>(
 	data?: T,
 	message?: string,
-	status = 200,
+	status = 200
 ): NextResponse<SuccessResponse<T>> {
 	return NextResponse.json(
 		{
@@ -35,7 +35,7 @@ export function successResponse<T>(
 			...(message && { message }),
 			...(data && { data }),
 		},
-		{ status },
+		{ status }
 	);
 }
 
@@ -46,14 +46,14 @@ export function successResponse<T>(
  */
 export function errorResponse(
 	message: string,
-	status = 500,
+	status = 500
 ): NextResponse<ErrorResponse> {
 	return NextResponse.json(
 		{
 			success: false,
 			message,
 		},
-		{ status },
+		{ status }
 	);
 }
 
@@ -64,7 +64,7 @@ export function errorResponse(
  */
 export function validationErrorResponse(
 	error: ZodError,
-	message = "Invalid request data",
+	message = "Invalid request data"
 ): NextResponse<ErrorResponse> {
 	// Format errors to show field-specific messages with exact details
 	const fieldErrors: FieldError[] = error.issues.map((issue) => ({
@@ -78,6 +78,6 @@ export function validationErrorResponse(
 			message,
 			errors: fieldErrors,
 		},
-		{ status: 400 },
+		{ status: 400 }
 	);
 }

@@ -141,31 +141,32 @@ import Navbar from "@/components/ui/Navbar";
 import Link from "next/link";
 
 export default function ToolName() {
-  return (
-    <div className="relative min-h-screen bg-slate-950">
-      <Navbar />
-      <main className="relative z-10 pt-32 pb-24">
-        {/* Tool content */}
-      </main>
-    </div>
-  );
+	return (
+		<div className="relative min-h-screen bg-slate-950">
+			<Navbar />
+			<main className="relative z-10 pt-32 pb-24">{/* Tool content */}</main>
+		</div>
+	);
 }
 ```
 
 ### Steps to Add a New Tool:
 
 1. **Create tool directory:**
+
    ```bash
    mkdir -p src/app/tools/[tool-slug]
    ```
 
 2. **Create page component:**
+
    ```bash
    touch src/app/tools/[tool-slug]/page.tsx
    ```
 
 3. **Update tools listing:** Edit `src/app/tools/page.tsx` and add to `tools`
    array:
+
    ```typescript
    {
      id: 'tool-id',
@@ -191,9 +192,9 @@ export default function ToolName() {
 
 ```typescript
 export const metadata: Metadata = {
-  title: "Free Tools - Boba Tech",
-  description:
-    "Free online tools for developers, researchers, and content creators.",
+	title: "Free Tools - Boba Tech",
+	description:
+		"Free online tools for developers, researchers, and content creators.",
 };
 ```
 

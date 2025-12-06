@@ -6,12 +6,14 @@ variables with validation.
 ## Quick Start
 
 1. **Copy the example environment file:**
+
    ```bash
    cp .env.example .env
    ```
 
 2. **For development (default):** The `.env` file is already configured to use a
    local SQLite database:
+
    ```env
    NODE_ENV=development
    TURSO_DATABASE_URL=file:local.db
@@ -67,8 +69,8 @@ const authToken = env.TURSO_AUTH_TOKEN; // string | undefined
 
 // Use in your database client
 const client = createClient({
-  url: env.TURSO_DATABASE_URL,
-  authToken: env.TURSO_AUTH_TOKEN,
+	url: env.TURSO_DATABASE_URL,
+	authToken: env.TURSO_AUTH_TOKEN,
 });
 ```
 
@@ -90,22 +92,23 @@ To add new environment variables:
 
    ```typescript
    export const env = createEnv({
-     server: {
-       // Add new server variable
-       MY_NEW_VAR: z.string().min(1),
-     },
-     client: {
-       // Add new client variable (must start with NEXT_PUBLIC_)
-       NEXT_PUBLIC_API_URL: z.string().url(),
-     },
-     experimental__runtimeEnv: {
-       // Only list client variables here
-       NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
-     },
+   	server: {
+   		// Add new server variable
+   		MY_NEW_VAR: z.string().min(1),
+   	},
+   	client: {
+   		// Add new client variable (must start with NEXT_PUBLIC_)
+   		NEXT_PUBLIC_API_URL: z.string().url(),
+   	},
+   	experimental__runtimeEnv: {
+   		// Only list client variables here
+   		NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+   	},
    });
    ```
 
 2. **Add to `.env` and `.env.example`:**
+
    ```env
    MY_NEW_VAR=value
    NEXT_PUBLIC_API_URL=https://api.example.com

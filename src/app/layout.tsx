@@ -1,7 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { generateMetadata as generateSEOMetadata, KEYWORD_SETS } from "~/lib/seo";
+import {
+	generateMetadata as generateSEOMetadata,
+	KEYWORD_SETS,
+} from "~/lib/seo";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -49,7 +52,11 @@ export default function RootLayout({
 			<head>
 				<link rel="icon" href="/favicon.svg" type="image/svg+xml"></link>
 			</head>
-			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
+			<body
+				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+			>
+				{children}
+			</body>
 		</html>
 	);
 }

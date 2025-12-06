@@ -98,8 +98,8 @@ Example with Formspree:
 
 ```tsx
 <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-  {/* form fields */}
-</form>;
+	{/* form fields */}
+</form>
 ```
 
 ### 5. Deploy to Cloudflare
@@ -144,8 +144,8 @@ Currently using Geist Sans. To change, edit
 import { YourFont } from "next/font/google";
 
 const yourFont = YourFont({
-  variable: "--font-your-font",
-  subsets: ["latin"],
+	variable: "--font-your-font",
+	subsets: ["latin"],
 });
 ```
 
